@@ -1,3 +1,4 @@
+function startApp() {
 function App() {
     const [route, setRoute] = React.useState(location.hash || "#events");
   
@@ -19,4 +20,12 @@ function App() {
   }
   
   ReactDOM.render(<App />, document.getElementById("app-root"));
-  
+}
+
+if (typeof L === 'undefined') {
+  window.addEventListener('load', () => {
+    setTimeout(startApp, 100); // wait for Leaflet to load
+  });
+} else {
+  startApp();
+}

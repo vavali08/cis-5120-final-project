@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <title>Event App</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="js/leaflet/leaflet.js"></script>  
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
@@ -11,7 +15,9 @@
   <body>
     <div id="app-root"></div>
 
-    <!-- Load scripts in correct order -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+
     <script type="text/babel" src="Navigation.js"></script>
     <script type="text/babel" src="Page.js"></script>
     <script type="text/babel" src="CalendarPage.js"></script>
