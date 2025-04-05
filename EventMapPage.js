@@ -10,20 +10,31 @@ function EventMapPage() {
         maxZoom: 19,
       }).addTo(map);
 
-      const greenIcon = L.icon({
-        iconUrl: 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
-        iconSize: [32, 32],
-        iconAnchor: [16, 32],
+      const terakawaIcon = L.icon({
+        iconUrl: 'https://cdn-icons-png.flaticon.com/512/857/857681.png', // ramen bowl icon
+        iconSize: [36, 36],
+        iconAnchor: [18, 36],
       });
+      
 
-      const blueIcon = L.icon({
+      const smokesIcon = L.icon({
         iconUrl: 'https://cdn-icons-png.flaticon.com/512/147/147142.png',
         iconSize: [32, 32],
         iconAnchor: [16, 32],
       });
 
-      L.marker([39.9552, -75.1996], { icon: greenIcon }).addTo(map); // Dunkin'
-      L.marker([39.9532, -75.2004], { icon: blueIcon }).addTo(map);  // Smokey Joe's
+      L.marker([39.9552, -75.1996], { icon: terakawaIcon })
+        .addTo(map)
+        .on("click", () => {
+          window.location.hash = "#event/terakawa";
+        });
+
+      L.marker([39.9532, -75.2004], { icon: smokesIcon })
+        .addTo(map)
+        .on("click", () => {
+          window.location.hash = "#event/smokeyjoes";
+        });
+
     }
   }, []);
 
