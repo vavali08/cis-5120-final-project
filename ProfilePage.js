@@ -1,8 +1,16 @@
 function ProfilePage() {
   const friends = ["Joe", "John", "Fred", "Amy"];
-  const dietaryPreferences = ["Vegetarian", "Gluten Free"];
+  const [dietaryPreferences,setDietaryPreferences] = React.useState(["Vegetarian", "Gluten Free"]);
+  const [newPreference, setNewPreference] = React.useState("");
   const weeklyBudget = 100;
   const dailyAverage = 17;
+
+  function handleAddPreference() {
+    if (newPreference.trim() !== ""){
+    setDietaryPreferences([...dietaryPreferences, newPreference.trim()]);
+    setNewPreference("");
+    }
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f3e7db]">
@@ -51,8 +59,24 @@ function ProfilePage() {
                 {pref}
               </span>
             ))}
-            <button className="bg-[#f5d9c1] px-3 py-1 rounded-full text-sm text-[#3a2e20]">
-              Add More
+          </div>
+          <div className="mt-2 flex gap-2">
+            <input
+            value={newPreference}
+            onChange={(e) => setNewPreference(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleAddPreference();
+              }
+            }}
+            placeholder="Add a preference"
+            className="px-2 py-1 rounded border text-sm"
+            />
+            <button 
+            onClick={handleAddPreference} 
+            className="bg-[#f5d9c1] px-3 py-1 rounded-full text-sm text-[#3a2e20]">
+              Add Preference
             </button>
           </div>
         </div>
