@@ -1,7 +1,7 @@
 const eventData = {
     terakawa: {
       name: "Terakawa Ramen",
-      image: "https://images.unsplash.com/photo-1613145990788-1a31f2cdccaf",
+      image: "/images/ramen.jpeg",
       tables: [
         {
           name: "Ramen Bulk Session",
@@ -19,7 +19,7 @@ const eventData = {
   
     smokeyjoes: {
       name: "Smokey Joe's",
-      image: "https://images.unsplash.com/photo-1613146215823-1a1c270c52e3",
+      image: "/images/smokes.jpeg",
       tables: [
         {
           name: "Grill Hangout",

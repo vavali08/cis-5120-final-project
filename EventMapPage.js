@@ -11,11 +11,10 @@ function EventMapPage() {
       }).addTo(map);
 
       const terakawaIcon = L.icon({
-        iconUrl: 'https://cdn-icons-png.flaticon.com/512/857/857681.png', // ramen bowl icon
+        iconUrl: 'https://cdn-icons-png.flaticon.com/512/857/857681.png',
         iconSize: [36, 36],
         iconAnchor: [18, 36],
       });
-      
 
       const smokesIcon = L.icon({
         iconUrl: 'https://cdn-icons-png.flaticon.com/512/147/147142.png',
@@ -34,17 +33,16 @@ function EventMapPage() {
         .on("click", () => {
           window.location.hash = "#event/smokeyjoes";
         });
-
     }
   }, []);
 
   return (
-    <div className="flex flex-col h-screen bg-black">
-      <div className="text-white p-4 text-lg font-semibold">
+    <div className="flex flex-col h-screen">
+      <div className="bg-black text-white p-3 pl-4 text-md font-medium">
         Event Page Map
       </div>
 
-      <div ref={mapRef} className="flex-grow w-full h-full" />
+      <div ref={mapRef} className="flex-grow w-full" />
 
       <Navigation />
     </div>
