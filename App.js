@@ -1,7 +1,8 @@
+// App.js
 function startApp() {
-function App() {
+  function App() {
     const [route, setRoute] = React.useState(location.hash || "#events");
-  
+
     React.useEffect(() => {
       const onHashChange = () => setRoute(location.hash);
       window.addEventListener("hashchange", onHashChange);
@@ -17,8 +18,6 @@ function App() {
       return <EventPage locationId={locationId} />;
     }
 
-    
-  
     switch (route) {
       case "#calendar":
         return <CalendarPage />;
@@ -31,13 +30,13 @@ function App() {
         return <EventMapPage />;
     }
   }
-  
+
   ReactDOM.render(<App />, document.getElementById("app-root"));
 }
 
 if (typeof L === 'undefined') {
   window.addEventListener('load', () => {
-    setTimeout(startApp, 100); // wait for Leaflet to load
+    setTimeout(startApp, 100);
   });
 } else {
   startApp();

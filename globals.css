@@ -1,0 +1,364 @@
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+  font-family: Inter;
+  background-color: #fceae4; /* A soft pink/peach background */
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header / Tabs */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f3cfc2;
+  padding: 0.5rem;
+  z-index: 1000; /* Ensures the header appears above other content */
+}
+  
+.nav-tabs {
+  display: flex;
+  justify-content: space-end;
+}
+.tab {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 0.75rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.tab:hover {
+  background-color: #e6bcae;
+}
+.tab.active {
+  background-color: #e6bcae;
+  border-radius: 8px;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 8vh;
+  justify-content: center;
+}
+
+/* Search Bar */
+
+
+.search-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 25vw;
+  margin-bottom: 2rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.search-input {
+  width: 100%;
+  height: 100%;
+  padding: 0.75rem;
+  border: 0px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: url(./assets/icon.svg) no-repeat scroll 12px 12px;
+  padding-left: 37px;
+}
+
+/* Meal Filters */
+.meal-filters {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.meal-filter {
+  flex: 1;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background-color: #ffe7df;
+  transition: background 0.2s;
+}
+.meal-filter:hover {
+  background-color: #ffd7cb;
+}
+.meal-filter.active {
+  background-color: #ffc3b0;
+}
+
+/* Schedule Sections */
+.schedule-section {
+  margin-bottom: 2rem;
+}
+.section-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+/* Schedule Cards */
+.schedule-card {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  width: 20vw;
+}
+
+/* Avatar */
+.avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.75rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.schedule-left {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  flex: 1;
+}
+
+.schedule-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-top: 0.2rem;
+}
+
+/* Schedule Info */
+.schedule-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+}
+.schedule-time {
+  font-size: 0.9rem;
+  color: #555;
+}
+.schedule-meal {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+/* Status */
+.schedule-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 0.25rem 0.5rem;
+  min-width: 85px;
+}
+.schedule-status .status-icon {
+  margin-bottom: 3px;
+  min-width: 21px;
+  height: 24px;
+}
+
+/* Different statuses (confirmed, pending, declined) */
+.confirmed {
+  background-color: #d4f8e8;
+  color: #2d7d5b;
+}
+.pending {
+  background-color: #fff4c2;
+  color: #9e8600;
+}
+.declined {
+  background-color: #ffe3e3;
+  color: #b73a3a;
+}
+
+/* Add Button */
+.add-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 10vh;
+}
+
+.add-button {
+  background-color: #ffb099;
+  border: none;
+  border-radius: 20px;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 15vw;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  font-weight: 600;
+}
+.add-button:hover {
+  background-color: #ff9a85;
+}
+
+/* Bottom Navigation */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; 
+  background-color: #f3cfc2;
+  padding: 0.5rem 0;
+}
+.bottom-nav {
+  display: flex;
+  justify-content: end;
+}
+.nav-item {
+  flex: 1;
+  text-align: center;
+  padding: 0.5rem 0;
+  color: #333;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.nav-item:hover {
+  background-color: #e6bcae;
+  border-radius: 8px;
+}
+
+.dialog-overlay h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.dialog-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.dialog {
+  background: #fceae4;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+}
+.dialog-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+label {
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+input, select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.dialog-actions button {
+  background-color: #ffb099;
+  border: none;
+  border-radius: 20px;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+
+/* Responsive adjustments (optional) */
+@media (min-width: 480px) {
+  .main-content {
+    max-width: 420px;
+    margin: 0 auto;
+  }
+}
+
+/* Filter Component Styling */
+.filter-container {
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.filter-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  width: 25vw;
+}
+
+.filter-select {
+  flex: 1;
+  padding: 0.6rem;
+  border: 1px solid #e6bcae;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  min-width: 200px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.filter-select:hover {
+  border-color: #ffb099;
+}
+
+
+/* No results message */
+.no-results {
+  text-align: center;
+  margin: 2rem 0;
+  color: #999;
+  font-style: italic;
+}
