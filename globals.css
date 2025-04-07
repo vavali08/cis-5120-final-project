@@ -121,13 +121,16 @@ body {
 .schedule-card {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background-color: #fff;
   border-radius: 12px;
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   margin-bottom: 1rem;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-  width: 20vw;
+  box-shadow: rgba(50, 50, 93, 0.1) 0px 4px 10px, rgba(0, 0, 0, 0.05) 0px 2px 5px;
+  width: 100%; /* 🔥 Stretch to container */
+  max-width: 600px; /* Optional: cap size on large screens */
 }
+
 
 /* Avatar */
 .avatar-container {
@@ -361,4 +364,21 @@ input, select {
   margin: 2rem 0;
   color: #999;
   font-style: italic;
+}
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-select {
+  flex: 1;
+  min-width: 150px;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }

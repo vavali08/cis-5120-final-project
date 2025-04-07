@@ -35,35 +35,44 @@ function EventPage({ locationId }) {
 
     <div className="font-bold text-lg">Public Tables</div>
 
-    {allTables.map((table, i) => (
-      <div key={i} className="bg-[#e8c9b7] p-4 rounded-xl shadow-sm">
-        <div className="flex items-center gap-2 mb-1">
-          <img
-            src={table.host.avatar}
-            className="w-8 h-8 rounded-full"
-            alt="host"
-          />
-          <div>
-            <div className="font-bold">{table.name}</div>
-            <div className="text-sm">{table.time}</div>
-          </div>
-        </div>
+    {allTables.map((table, i) => {
+      const [requestSent, setRequestSent] = React.useState(false);
 
-        <div className="mt-2 text-sm text-white">
-          <div className="underline">Dishes</div>
-          {table.dishes.map((dish, j) => (
-            <div className="flex justify-between" key={j}>
-              <span>{dish.name}</span>
-              <span>{dish.participants.join("")}</span>
+      return (
+        <div key={i} className="bg-[#e8c9b7] p-4 rounded-xl shadow-sm">
+          <div className="flex items-center gap-2 mb-1">
+            <img
+              src={table.host.avatar}
+              className="w-8 h-8 rounded-full"
+              alt="host"
+            />
+            <div>
+              <div className="font-bold">{table.name}</div>
+              <div className="text-sm">{table.time}</div>
             </div>
-          ))}
-        </div>
+          </div>
 
-        <button className="mt-3 w-full button-primary">
-          + Request To Join
-        </button>
-      </div>
-    ))}
+          <div className="mt-2 text-sm text-white">
+            <div className="underline">Dishes</div>
+            {table.dishes.map((dish, j) => (
+              <div className="flex justify-between" key={j}>
+                <span>{dish.name}</span>
+                <span>{dish.participants.join("")}</span>
+              </div>
+            ))}
+          </div>
+
+          <button
+            className="mt-3 w-full button-primary disabled:opacity-60"
+            onClick={() => setRequestSent(true)}
+            disabled={requestSent}
+          >
+            {requestSent ? "✅ Request Sent" : "+ Request To Join"}
+          </button>
+        </div>
+      );
+    })}
+
   </div>
 
   <Navigation />

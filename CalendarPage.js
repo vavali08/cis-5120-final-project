@@ -6,7 +6,7 @@ function CalendarPage() {
     link.rel = 'stylesheet';
     link.href = 'globals.css'; // adjust path as needed
     document.head.appendChild(link);
-    
+
     // Cleanup on unmount:
     return () => {
       document.head.removeChild(link);
@@ -123,12 +123,39 @@ function CalendarPage() {
           />
         </div>
 
-        {/* Filter Component */}
-        <FilterComponent
-          schedules={schedules}
-          filters={filters}
-          onFilterChange={handleFilterChange}
-        />
+        <div className="filter-bar">
+          <select
+            className="filter-select"
+            value={filters.diningType}
+            onChange={(e) => handleFilterChange('diningType', e.target.value)}
+          >
+            <option value="">All Dining Types</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+          </select>
+
+          <select
+            className="filter-select"
+            value={filters.date}
+            onChange={(e) => handleFilterChange('date', e.target.value)}
+          >
+            <option value="">All Dates</option>
+            {Array.from(new Set(schedules.map(s => s.date))).map(date => (
+              <option key={date} value={date}>{date}</option>
+            ))}
+          </select>
+
+          <select
+            className="filter-select"
+            value={filters.status}
+            onChange={(e) => handleFilterChange('status', e.target.value)}
+          >
+            <option value="">All Statuses</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="pending">Pending</option>
+            <option value="declined">Declined</option>
+          </select>
+        </div>
 
         {Object.keys(groupedSchedules).length > 0 ? (
           Object.keys(groupedSchedules).map((date) => {
