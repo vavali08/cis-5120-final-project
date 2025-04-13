@@ -28,6 +28,25 @@ app.get('/api/events', (req, res) => {
   });
 });
 
+// GET visible events for map page
+app.get('/api/users/:id/visible-events', (req, res) => {
+  const userId = req.params.id;
+  const sql = `
+    SELECT 
+      e.*, 
+      u.username AS host_name 
+    FROM events e
+    JOIN users u ON e.host_id = u.id
+    LEFT JOIN event_participants ep ON ep.event_id = e.id AND ep.user_id = ?
+    WHERE e.is_public = TRUE OR e.host_id = ? OR ep.user_id = ?
+    ORDER BY e.date, e.time_range
+  `;
+  db.query(sql, [userId, userId], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
+
 // GET all users
 app.get('/api/users', (req, res) => {
   db.query('SELECT * FROM users', (err, results) => {
@@ -67,6 +86,35 @@ app.get('/api/users/:id/friends', (req, res) => {
 });
 
 // EVENTS/EVENT MAPS
+
+app.post('/api/events', (req, res) => {
+  const {
+    title, host_id, location, date,
+    time_range, dining_type, latitude,
+    longitude, is_availability, is_public
+  } = req.body;
+
+  const sql = `INSERT INTO events
+    (title, host_id, location, date, time_range, dining_type, latitude, longitude, is_availability, is_public)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+  const values = [title, host_id, location, date, time_range, dining_type, latitude, longitude, is_availability, is_public];
+
+  db.query(sql, values, (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(201).json({ id: result.insertId });
+  });
+
+  const insertHostParticipant = `
+    INSERT INTO event_participants (event_id, user_id, status)
+    VALUES (?, ?, 'confirmed')
+  `;
+  db.query(insertHostParticipant, [eventId, hostId], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(201).json({ id: result.insertId });
+  });
+
+});
 
 // Query to get user's schedule
 app.get('/api/users/:id/schedules', (req, res) => {
@@ -161,17 +209,36 @@ app.get('/api/events/:id', (req, res) => {
 });
 
 app.get('/api/events/:id/attendees', (req, res) => {
+  const eventId = req.params.id;
   const sql = `
-    SELECT u.username, ep.status, ep.joined_by_user
+    SELECT ep.user_id, u.username, ep.status
     FROM event_participants ep
     JOIN users u ON u.id = ep.user_id
     WHERE ep.event_id = ?
   `;
-  db.query(sql, [req.params.id], (err, results) => {
+  db.query(sql, [eventId], (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(results);
   });
 });
+
+//Request to join event
+app.post('/api/events/:id/request', (req, res) => {
+  const eventId = req.params.id;
+  const { user_id } = req.body;
+
+  const sql = `
+    INSERT INTO event_participants (event_id, user_id, status)
+    VALUES (?, ?, 'request_pending')
+    ON DUPLICATE KEY UPDATE status = 'request_pending'
+  `;
+
+  db.query(sql, [eventId, user_id], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ success: true });
+  });
+});
+
 
 // Status update route
 app.put('/api/events/:id/attendees', (req, res) => {

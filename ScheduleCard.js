@@ -8,12 +8,15 @@ function ScheduleCard({ schedule }) {
   const isAvailability = schedule.is_availability;
 
   function getStatusIcon() {
-    if (isAvailability) return null;
-    if (schedule.status === 'declined') return './assets/Vector (1).png';
-    if (schedule.status === 'pending') return './assets/Loader.svg';
-    return './assets/Vector.png';
+    if (schedule.status === 'declined' || schedule.status === 'request_declined') {
+      return './assets/Vector (1).png';
+    }
+    if (schedule.status === 'pending' || schedule.status === 'invitation_pending' || schedule.status === 'request_pending') {
+      return './assets/Loader.svg';
+    }
+    return './assets/Vector.png'; // confirmed
   }
-
+  
   function getAvatarIcon() {
     if (schedule.avatar) return schedule.avatar;
     if (schedule.friend === 'Joe') return './assets/3d_avatar_1.png';
@@ -21,12 +24,17 @@ function ScheduleCard({ schedule }) {
     return './assets/8.png';
   }
 
-  function formatStatus() {
-    if (schedule.status === 'confirmed') return 'Confirmed';
-    if (schedule.status === 'pending') return schedule.joined_by_user ? 'Request Pending' : 'Invitation Pending';
-    if (schedule.status === 'declined') return schedule.joined_by_user ? 'Request Declined' : 'Invitation Declined';
-    return 'Unknown';
+  function formatStatus(status) {
+    switch (status) {
+      case 'confirmed': return 'Confirmed';
+      case 'request_pending': return 'Request Pending';
+      case 'invitation_pending': return 'Invitation Pending';
+      case 'request_declined': return 'Request Declined';
+      case 'invitation_declined': return 'Invitation Declined';
+      default: return status;
+    }
   }
+  
 
   function handleClick() {
     if (!isAvailability) {
@@ -59,7 +67,7 @@ function ScheduleCard({ schedule }) {
         <div className={`schedule-status ${statusClasses[schedule.status]}`}>
         <img src={getStatusIcon()} className="status-icon" alt="Status Icon" />
         <span className="status-text">
-          {formatStatus()}
+          {formatStatus(schedule.status)}
         </span>
       </div>
       )}

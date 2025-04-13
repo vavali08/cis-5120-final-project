@@ -155,7 +155,7 @@ function CalendarPage() {
         )}
 
         <div className="add-button-container">
-          <button className="add-button" onClick={() => setIsDialogOpen(true)}>
+          <button className="add-button" onClick={() => window.location.hash = "#event/create"}>
             Create A Table
           </button>
           <button className="add-button mt-2" onClick={() => window.location.hash = "#availability/create"}>

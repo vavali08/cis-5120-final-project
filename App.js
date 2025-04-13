@@ -21,11 +21,7 @@ function startApp() {
       const eventId = route.split("/")[1];
       return <EventDetailPage eventId={eventId} />;
     }
-  
-    if (route.startsWith("#event/")) {
-      const locationId = route.split("/")[1];
-      return <EventPage locationId={locationId} />;
-    }
+
   
     switch (route) {
       case "#calendar":

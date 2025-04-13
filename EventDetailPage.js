@@ -3,6 +3,7 @@ function EventDetailPage({ eventId }) {
   const [event, setEvent] = React.useState(null);
   const [attendees, setAttendees] = React.useState([]);
   const [isHost, setIsHost] = React.useState(false);
+  const [alreadyRequested, setAlreadyRequested] = React.useState(false);
   const userId = localStorage.getItem("user_id");
 
   React.useEffect(() => {
@@ -15,16 +16,23 @@ function EventDetailPage({ eventId }) {
 
     fetch(`http://localhost:3001/api/events/${eventId}/attendees`)
       .then(res => res.json())
-      .then(data => setAttendees(data));
-  }, [eventId]);
+      .then(data => {
+        setAttendees(data);
+        setAlreadyRequested(data.some(p => p.user_id == userId && p.status === 'request_pending' || p.status === 'confirmed'));
+      });
+  }, [eventId, userId]);
 
-  function formatStatus(status) {
-    switch (status) {
-      case "pending": return "Invitation Pending";
-      case "declined": return "Invitation Declined";
-      case "confirmed": return "Confirmed";
-      default: return "Unknown";
-    }
+  function handleRequestToJoin(eventId) {
+    fetch(`http://localhost:3001/api/events/${eventId}/request`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: localStorage.getItem("user_id") })
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert("Request sent!");
+      setAlreadyRequested(true);
+    });
   }
 
   function handleStatusChange(username, newStatus) {
@@ -39,6 +47,23 @@ function EventDetailPage({ eventId }) {
         prev.map(a => a.username === username ? { ...a, status: newStatus } : a)
       );
     });
+  }
+
+  function getStatusColor(status) {
+    if (status === 'confirmed') return 'text-green-600';
+    if (status === 'request_pending' || status === 'invitation_pending') return 'text-yellow-600';
+    return 'text-red-500';
+  }
+
+  function formatStatus(status) {
+    switch (status) {
+      case 'request_pending': return 'Request Pending';
+      case 'invitation_pending': return 'Invitation Pending';
+      case 'request_declined': return 'Request Declined';
+      case 'invitation_declined': return 'Invitation Declined';
+      case 'confirmed': return 'Confirmed';
+      default: return status;
+    }
   }
 
   if (!event) return <div className="p-4 text-white">Loading...</div>;
@@ -58,30 +83,21 @@ function EventDetailPage({ eventId }) {
         <div><strong>Dining Type:</strong> {event.dining_type}</div>
 
         <div className="mt-4">
-          <strong>Attendees:</strong>
-          <ul className="list-disc list-inside">
-            {attendees.map((a, idx) => (
-              <li key={idx} className="flex justify-between items-center">
-                <span>{a.username} - {formatStatus(a.status)}</span>
-                {isHost && a.status === 'pending' && (
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => handleStatusChange(a.username, 'confirmed')}
-                      className="bg-green-500 text-white px-2 py-1 rounded text-sm"
-                    >
-                      Accept
-                    </button>
-                    <button
-                      onClick={() => handleStatusChange(a.username, 'declined')}
-                      className="bg-red-500 text-white px-2 py-1 rounded text-sm"
-                    >
-                      Decline
-                    </button>
-                  </div>
+          <h3 className="font-semibold text-lg mb-2">Attendees</h3>
+          {(isHost ? attendees : attendees.filter(p => p.status === 'confirmed'))
+            .map((p, i) => (
+              <div key={i} className="flex justify-between items-center mb-1">
+                <div className="flex items-center gap-2">
+                  <img src={p.avatar_url || '/default.png'} className="w-6 h-6 rounded-full" />
+                  <span>{p.username}</span>
+                </div>
+                {isHost && (
+                  <span className={`text-sm ${getStatusColor(p.status)}`}>
+                    {formatStatus(p.status)}
+                  </span>
                 )}
-              </li>
-            ))}
-          </ul>
+              </div>
+          ))}
         </div>
 
         {isHost ? (
@@ -91,11 +107,18 @@ function EventDetailPage({ eventId }) {
             </button>
           </div>
         ) : (
-          <div className="mt-4">
-            <button className="bg-[#d3b4a4] px-4 py-2 rounded text-white">
-              Request to Join
+          alreadyRequested ? (
+            <button className="button-disabled w-full mt-4" disabled>
+              Already Requested to Join
             </button>
-          </div>
+          ) : (
+            <button
+              onClick={() => handleRequestToJoin(eventId)}
+              className="button-primary w-full mt-4"
+            >
+              + Request to Join
+            </button>
+          )
         )}
       </div>
 

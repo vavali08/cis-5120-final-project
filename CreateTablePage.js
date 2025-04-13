@@ -36,7 +36,7 @@ function CreateTablePage({ locationId }) {
   }
 
   async function handleSubmit() {
-    if (!tableName.trim() || !time || !date || !location.trim()) {
+    if (!tableName.trim() || !startTime || !endTime || !date || !location.trim()) {
       alert("Please fill out all required fields.");
       return;
     }
@@ -75,7 +75,7 @@ function CreateTablePage({ locationId }) {
 
     if (res.ok) {
       const result = await res.json();
-      window.location.hash = `#event/${result.id}`;
+      window.location.hash = `#event-detail/${result.id}`;
     } else {
       alert("Failed to create event.");
     }

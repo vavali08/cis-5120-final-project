@@ -1,39 +1,36 @@
 function EventMapPage() {
   const mapRef = React.useRef(null);
+  const userId = localStorage.getItem("user_id");
 
   React.useEffect(() => {
-    if (mapRef.current && !mapRef.current._leaflet_id) {
-      const map = L.map(mapRef.current).setView([39.9545, -75.1994], 17); // Centered near UPenn
+    if (!mapRef.current || mapRef.current._leaflet_id) return;
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap',
-        maxZoom: 19,
-      }).addTo(map);
+    const map = L.map(mapRef.current).setView([39.9545, -75.1994], 17);
 
-      const terakawaIcon = L.icon({
-        iconUrl: 'https://cdn-icons-png.flaticon.com/512/857/857681.png',
-        iconSize: [36, 36],
-        iconAnchor: [18, 36],
-      });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap',
+      maxZoom: 19,
+    }).addTo(map);
 
-      const smokesIcon = L.icon({
-        iconUrl: 'https://cdn-icons-png.flaticon.com/512/147/147142.png',
-        iconSize: [32, 32],
-        iconAnchor: [16, 32],
-      });
+    fetch(`http://localhost:3001/api/users/${userId}/visible-events`)
+      .then(res => res.json())
+      .then(events => {
+        events.forEach(event => {
+          if (!event.latitude || !event.longitude) return;
 
-      L.marker([39.9552, -75.1996], { icon: terakawaIcon })
-        .addTo(map)
-        .on("click", () => {
-          window.location.hash = "#location/terakawa";
+          const icon = L.icon({
+            iconUrl: event.icon_url || 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
+            iconSize: [36, 36],
+            iconAnchor: [18, 36],
+          });
+
+          L.marker([event.latitude, event.longitude], { icon })
+            .addTo(map)
+            .on('click', () => {
+              window.location.hash = `#event/${event.id}`;
+            });
         });
-
-      L.marker([39.9532, -75.2004], { icon: smokesIcon })
-        .addTo(map)
-        .on("click", () => {
-          window.location.hash = "#location/smokeyjoes";
-        });
-    }
+      });
   }, []);
 
   return (
