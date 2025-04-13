@@ -12,15 +12,26 @@ function startApp() {
       return <AddAvailabilityPage />;
     }
 
-    if (route.startsWith("#event/") && route.includes("/create")) {
+    if (route === "#event/create") {
+      return <CreateTablePage />;
+    }
+    
+    if (route.match(/^#event\/[^\/]+\/create$/)) {
       const locationId = route.split("/")[1];
       return <CreateTablePage locationId={locationId} />;
     }
+    
   
     if (route.startsWith("#event-detail/")) {
       const eventId = route.split("/")[1];
       return <EventDetailPage eventId={eventId} />;
     }
+
+    if (route.startsWith("#location/")) {
+      const locationId = route.split("/")[1];
+      return <LocationPage locationId={locationId} />;
+    }
+    
 
   
     switch (route) {

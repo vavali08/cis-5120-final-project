@@ -109,7 +109,7 @@ app.post('/api/events', (req, res) => {
     INSERT INTO event_participants (event_id, user_id, status)
     VALUES (?, ?, 'confirmed')
   `;
-  db.query(insertHostParticipant, [eventId, hostId], (err, result) => {
+  db.query(insertHostParticipant, [id, hostId], (err, result) => {
     if (err) return res.status(500).json({ error: err.message });
     res.status(201).json({ id: result.insertId });
   });
@@ -256,6 +256,21 @@ app.put('/api/events/:id/attendees', (req, res) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json({ success: true });
   });
+});
+
+app.get('/api/events/location/:location', (req, res) => {
+  const location = decodeURIComponent(req.params.location);
+  db.query(
+    `SELECT e.*, u.username as host_name
+     FROM events e
+     LEFT JOIN users u ON e.host_id = u.id
+     WHERE e.location = ?`,
+    [location],
+    (err, results) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json(results);
+    }
+  );
 });
 
 

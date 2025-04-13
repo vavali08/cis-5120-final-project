@@ -1,83 +1,71 @@
-function LocationPage({ locationId }) {
-    const data = eventData[locationId];
-    if (!data) return <div className="p-4 text-white">No event found.</div>;
-  
-    const stored = JSON.parse(localStorage.getItem("userTables") || "{}");
-    const userTables = stored[locationId] || [];
-    const allTables = [...(data.tables || []), ...userTables];
+function LocationPage({ locationId = ""}) {
+  const [events, setEvents] = React.useState([]);
+  const [requestSentMap, setRequestSentMap] = React.useState({});
+  const userId = localStorage.getItem("user_id");
 
-    return (
-      <div className="flex flex-col min-h-screen pb-16 bg-[#fef5f1]">
-  <div className="bg-black text-white p-4 text-lg font-semibold">
-    Event Page Map Detail
-  </div>
+  React.useEffect(() => {
+    fetch(`http://localhost:3001/api/events/location/${locationId}`)
+      .then((res) => res.json())
+      .then(setEvents);
+  }, [locationId]);
 
-  <div className="relative">
-    <img
-      src={data.image}
-      alt={data.name}
-      className="w-full h-48 object-cover"
-    />
-    <div className="absolute bottom-2 left-4 text-xl text-white font-bold bg-gradient-to-r from-black/70 to-transparent px-2 py-1 rounded">
-      {data.name}
-    </div>
-  </div>
-
-  <div className="p-4 flex flex-col gap-4">
-    <button
-      onClick={() => window.location.hash = `#event/${locationId}/create`}
-      className="button-primary"
-    >
-      + Create Your Table
-    </button>
-
-    <button className="button-secondary">🤍 Add Favorites</button>
-
-    <div className="font-bold text-lg">Public Tables</div>
-
-    {allTables.map((table, i) => {
-      const [requestSent, setRequestSent] = React.useState(false);
-
-      return (
-        <div key={i} className="bg-[#e8c9b7] p-4 rounded-xl shadow-sm">
-          <div className="flex items-center gap-2 mb-1">
-            <img
-              src={table.host.avatar}
-              className="w-8 h-8 rounded-full"
-              alt="host"
-            />
-            <div>
-              <div className="font-bold">{table.name}</div>
-              <div className="text-sm">{table.time}</div>
-            </div>
-          </div>
-
-          <div className="mt-2 text-sm text-white">
-            <div className="underline">Dishes</div>
-            {table.dishes.map((dish, j) => (
-              <div className="flex justify-between" key={j}>
-                <span>{dish.name}</span>
-                <span>{dish.participants.join("")}</span>
-              </div>
-            ))}
-          </div>
-
-          <button
-            className="mt-3 w-full button-primary disabled:opacity-60"
-            onClick={() => setRequestSent(true)}
-            disabled={requestSent}
-          >
-            {requestSent ? "✅ Request Sent" : "+ Request To Join"}
-          </button>
-        </div>
-      );
-    })}
-
-  </div>
-
-  <Navigation />
-</div>
-
-    );
+  function handleRequest(eventId) {
+    fetch(`http://localhost:3001/api/events/${eventId}/request`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: userId })
+    }).then(() => {
+      setRequestSentMap(prev => ({ ...prev, [eventId]: true }));
+    });
   }
-  
+
+  return (
+    <div className="flex flex-col min-h-screen pb-16 bg-[#fef5f1]">
+      <div className="bg-black text-white p-4 text-lg font-semibold">
+        Events at: {locationId.replace(/_/g, ' ')}
+      </div>
+
+      <div className="p-4 flex flex-col gap-4">
+        <button
+          onClick={() => window.location.hash = `#event/${locationId}/create`}
+          className="button-primary"
+        >
+          + Create Your Table
+        </button>
+
+        <button className="button-secondary">🤍 Add Favorites</button>
+
+        <div className="font-bold text-lg">Public Tables</div>
+
+        {events.length === 0 ? (
+          <div className="text-sm text-gray-700">No events at this location yet.</div>
+        ) : (
+          events.map((ev) => (
+            <div key={ev.id} className="bg-[#f3dbc3] p-4 rounded-xl shadow-sm">
+              <div className="flex justify-between items-center">
+                <div>
+                  <div className="font-bold">{ev.title}</div>
+                  <div className="text-sm text-gray-800">{ev.time_range} — {ev.dining_type}</div>
+                  <div className="text-sm">Host: {ev.host_name || "Anonymous"}</div>
+                </div>
+                <span className="text-sm text-gray-600">{new Date(ev.date).toLocaleDateString()}</span>
+              </div>
+
+              <button
+                className="mt-3 w-full button-primary disabled:opacity-60"
+                onClick={() => handleRequest(ev.id)}
+                disabled={requestSentMap[ev.id]}
+              >
+                {requestSentMap[ev.id] ? "✅ Request Sent" : "+ Request To Join"}
+              </button>
+            </div>
+          ))
+        )}
+      </div>
+
+      <Navigation />
+    </div>
+  );
+}
+
+window.LocationPage = LocationPage;
