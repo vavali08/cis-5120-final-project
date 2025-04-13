@@ -382,3 +382,18 @@ input, select {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
+
+.schedule-card.availability-card {
+  background-color: #fff8f0;
+  border-left: 4px solid #ffbb55;
+}
+
+.availability-tag {
+  font-size: 0.75rem;
+  color: #ff8800;
+  background-color: #fff0d6;
+  padding: 2px 6px;
+  border-radius: 8px;
+  display: inline-block;
+  margin-top: 4px;
+}

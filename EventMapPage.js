@@ -25,13 +25,13 @@ function EventMapPage() {
       L.marker([39.9552, -75.1996], { icon: terakawaIcon })
         .addTo(map)
         .on("click", () => {
-          window.location.hash = "#event/terakawa";
+          window.location.hash = "#location/terakawa";
         });
 
       L.marker([39.9532, -75.2004], { icon: smokesIcon })
         .addTo(map)
         .on("click", () => {
-          window.location.hash = "#event/smokeyjoes";
+          window.location.hash = "#location/smokeyjoes";
         });
     }
   }, []);

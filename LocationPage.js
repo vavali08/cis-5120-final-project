@@ -1,4 +1,4 @@
-function EventPage({ locationId }) {
+function LocationPage({ locationId }) {
     const data = eventData[locationId];
     if (!data) return <div className="p-4 text-white">No event found.</div>;
   
