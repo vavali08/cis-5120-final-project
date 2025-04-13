@@ -1,7 +1,21 @@
 function CreateTablePage({ locationId }) {
   const [tableName, setTableName] = React.useState("");
   const [dishes, setDishes] = React.useState([""]);
-  const [time, setTime] = React.useState("");
+  const [startTime, setStartTime] = React.useState("");
+  const [endTime, setEndTime] = React.useState("");
+  const [date, setDate] = React.useState("");
+  const [diningType, setDiningType] = React.useState("Lunch");
+  const [location, setLocation] = React.useState("");
+  const [isPublic, setIsPublic] = React.useState(true);
+  const [invitees, setInvitees] = React.useState([]);
+  const [friends, setFriends] = React.useState([]);
+  const userId = localStorage.getItem("user_id");
+
+  React.useEffect(() => {
+    fetch(`http://localhost:3001/api/users/${userId}/friends`)
+      .then(res => res.json())
+      .then(setFriends);
+  }, [userId]);
 
   function handleAddDish() {
     setDishes([...dishes, ""]);
@@ -13,20 +27,58 @@ function CreateTablePage({ locationId }) {
     setDishes(newDishes);
   }
 
-  function handleSubmit() {
-    const stored = JSON.parse(localStorage.getItem("userTables") || "{}");
-    const newTable = {
-      name: tableName,
-      time,
-      dishes: dishes.filter((d) => d.trim() !== "").map((d) => ({ name: d, participants: [] })),
-      host: { avatar: "https://cdn-icons-png.flaticon.com/512/147/147144.png" },
+  function toggleInvite(friendId) {
+    setInvitees(prev =>
+      prev.includes(friendId)
+        ? prev.filter(id => id !== friendId)
+        : [...prev, friendId]
+    );
+  }
+
+  async function handleSubmit() {
+    if (!tableName.trim() || !time || !date || !location.trim()) {
+      alert("Please fill out all required fields.");
+      return;
+    }
+
+    if (!startTime || !endTime) {
+      alert("Please select both start and end time.");
+      return;
+    }
+    if (startTime >= endTime) {
+      alert("End time must be after start time.");
+      return;
+    }
+
+    const time_range = `${startTime} - ${endTime}`;
+
+    
+
+    const payload = {
+      title: tableName,
+      time_range: time_range,
+      date,
+      dining_type: diningType,
+      location,
+      is_availability: false,
+      is_public: isPublic,
+      host_id: userId,
+      invitees,
+      dishes: dishes.filter((d) => d.trim() !== "")
     };
-    const updated = {
-      ...stored,
-      [locationId]: [...(stored[locationId] || []), newTable],
-    };
-    localStorage.setItem("userTables", JSON.stringify(updated));
-    window.location.hash = `#event/${locationId}`;
+
+    const res = await fetch("http://localhost:3001/api/events", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      const result = await res.json();
+      window.location.hash = `#event/${result.id}`;
+    } else {
+      alert("Failed to create event.");
+    }
   }
 
   return (
@@ -42,12 +94,68 @@ function CreateTablePage({ locationId }) {
       />
 
       <input
-        type="text"
-        value={time}
-        onChange={(e) => setTime(e.target.value)}
-        placeholder="Time (e.g. Today, 6:00 - 7:30pm)"
+        type="date"
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
         className="w-full mb-2 px-4 py-2 rounded border"
       />
+
+      <label className="font-semibold">Start Time:</label>
+      <input
+        type="time"
+        value={startTime}
+        onChange={(e) => setStartTime(e.target.value)}
+        className="w-full mb-2 px-4 py-2 rounded border"
+      />
+
+      <label className="font-semibold">End Time:</label>
+      <input
+        type="time"
+        value={endTime}
+        onChange={(e) => setEndTime(e.target.value)}
+        className="w-full mb-2 px-4 py-2 rounded border"
+      />
+
+
+      <input
+        type="text"
+        value={location}
+        onChange={(e) => setLocation(e.target.value)}
+        placeholder="Location"
+        className="w-full mb-2 px-4 py-2 rounded border"
+      />
+
+      <select
+        value={diningType}
+        onChange={(e) => setDiningType(e.target.value)}
+        className="w-full mb-2 px-4 py-2 rounded border"
+      >
+        <option value="Lunch">Lunch</option>
+        <option value="Dinner">Dinner</option>
+        <option value="Brunch">Brunch</option>
+        <option value="Breakfast">Breakfast</option>
+      </select>
+
+      <div className="mb-2 flex items-center gap-2">
+        <label className="font-semibold">Public?</label>
+        <input type="checkbox" checked={isPublic} onChange={() => setIsPublic(!isPublic)} />
+      </div>
+
+      <div className="mb-4">
+        <label className="font-semibold">Invite Friends:</label>
+        <div className="grid grid-cols-2 gap-2 mt-2">
+          {friends.map(friend => (
+            <label key={friend.id} className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={invitees.includes(friend.id)}
+                onChange={() => toggleInvite(friend.id)}
+              />
+              {friend.username}
+            </label>
+          ))}
+        </div>
+      </div>
 
       <div className="mb-2">
         <label className="font-semibold">Dishes:</label>

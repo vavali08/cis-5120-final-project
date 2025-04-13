@@ -43,7 +43,7 @@ function CalendarPage() {
     if (filters.status) {
       result = result.filter(s => s.status !== undefined && s.status === filters.status);
     }
-    
+
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
       result = result.filter(s => (s.friend || "").toLowerCase().includes(term) || s.diningType.toLowerCase().includes(term));
@@ -157,6 +157,9 @@ function CalendarPage() {
         <div className="add-button-container">
           <button className="add-button" onClick={() => setIsDialogOpen(true)}>
             Create A Table
+          </button>
+          <button className="add-button mt-2" onClick={() => window.location.hash = "#availability/create"}>
+            Add Availability
           </button>
         </div>
       </main>

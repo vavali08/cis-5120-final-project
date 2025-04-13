@@ -8,6 +8,10 @@ function startApp() {
       return () => window.removeEventListener("hashchange", onHashChange);
     }, []);
   
+    if (route === "#availability/create") {
+      return <AddAvailabilityPage />;
+    }
+
     if (route.startsWith("#event/") && route.includes("/create")) {
       const locationId = route.split("/")[1];
       return <CreateTablePage locationId={locationId} />;
@@ -29,7 +33,7 @@ function startApp() {
       case "#profile":
         return <ProfilePage />;
       case "#event":
-        return <EventPage />;
+        return <EventDetailPage />;
       case "#events":
       default:
         return <EventMapPage />;
