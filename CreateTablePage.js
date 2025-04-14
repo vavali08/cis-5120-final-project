@@ -1,6 +1,8 @@
 function CreateTablePage({ locationId }) {
   const [tableName, setTableName] = React.useState(locationId ? `${locationId} Table` : "");
   const [location, setLocation] = React.useState(locationId || "");
+  const [latitude, setLatitude] = React.useState(null);
+  const [longitude, setLongitude] = React.useState(null);
   const [diningType, setDiningType] = React.useState("Lunch");
   const [date, setDate] = React.useState("");
   const [startTime, setStartTime] = React.useState("");
@@ -30,8 +32,8 @@ function CreateTablePage({ locationId }) {
       dining_type: diningType,
       date,
       time_range: `${startTime} - ${endTime}`,
-      latitude: null,
-      longitude: null,
+      latitude,
+      longitude,
       is_public: true,
       is_availability: false,
       host_id: userId,
@@ -44,10 +46,24 @@ function CreateTablePage({ locationId }) {
       body: JSON.stringify(event)
     })
       .then(res => res.json())
-      .then(data => {
+      .then(() => {
         alert("Table created!");
         window.location.hash = "#calendar";
       });
+  }
+
+  function handleLocationInput(value) {
+    setLocation(value);
+    const match = defaultLocations.find(
+      loc => loc.name.toLowerCase() === value.toLowerCase()
+    );
+    if (match) {
+      setLatitude(match.lat);
+      setLongitude(match.lng);
+    } else {
+      setLatitude(null);
+      setLongitude(null);
+    }
   }
 
   return (
@@ -65,10 +81,16 @@ function CreateTablePage({ locationId }) {
       <input
         type="text"
         value={location}
-        onChange={(e) => setLocation(e.target.value)}
-        placeholder="Location"
+        onChange={(e) => handleLocationInput(e.target.value)}
+        placeholder="Select or enter location"
+        list="location-options"
         className="w-full mb-2 px-4 py-2 rounded border"
       />
+      <datalist id="location-options">
+        {defaultLocations.map((loc, i) => (
+          <option key={i} value={loc.name} />
+        ))}
+      </datalist>
 
       <div className="flex gap-2 mb-2">
         <input
