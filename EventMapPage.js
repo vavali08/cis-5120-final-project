@@ -1,34 +1,3 @@
-
-const defaultLocations = [
-  {
-    id: "terakawa",
-    name: "Terakawa Ramen",
-    lat: 39.9552,
-    lng: -75.1996,
-    icon: "https://cdn-icons-png.flaticon.com/512/857/857681.png"
-  },
-  {
-    id: "smokeyjoes",
-    name: "Smokey Joe's",
-    lat: 39.9532,
-    lng: -75.2004,
-    icon: "https://cdn-icons-png.flaticon.com/512/147/147142.png"
-  },
-  {
-    id: "houston",
-    name: "Houston Market",
-    lat: 39.9527,
-    lng: -75.1931,
-    icon: "https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
-  },
-  {
-    id: "commons",
-    name: "1920 Commons",
-    lat: 39.9521,
-    lng: -75.1915,
-    icon: "https://cdn-icons-png.flaticon.com/512/182/182292.png"
-  }
-];
 function EventMapPage() {
   const mapRef = React.useRef(null);
   const userId = localStorage.getItem("user_id");
