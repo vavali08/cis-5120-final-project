@@ -102,19 +102,20 @@ app.post('/api/events', (req, res) => {
 
   db.query(sql, values, (err, result) => {
     if (err) return res.status(500).json({ error: err.message });
-    res.status(201).json({ id: result.insertId });
-  });
 
-  const insertHostParticipant = `
-    INSERT INTO event_participants (event_id, user_id, status)
-    VALUES (?, ?, 'confirmed')
-  `;
-  db.query(insertHostParticipant, [id, hostId], (err, result) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.status(201).json({ id: result.insertId });
-  });
+    const eventId = result.insertId;
 
+    const insertHostParticipant = `
+      INSERT INTO event_participants (event_id, user_id, status)
+      VALUES (?, ?, 'confirmed')
+    `;
+    db.query(insertHostParticipant, [eventId, host_id], (err2) => {
+      if (err2) return res.status(500).json({ error: err2.message });
+      res.status(201).json({ id: eventId });
+    });
+  });
 });
+
 
 // Query to get user's schedule
 app.get('/api/users/:id/schedules', (req, res) => {
