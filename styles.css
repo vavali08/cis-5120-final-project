@@ -1,87 +1,92 @@
-/* styles.css */
-
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: #fef5f1;
-    margin: 0;
-  }
-  
-  /* Tabs */
-  .tab-button {
-    padding: 0.5rem 0;
-    font-weight: 600;
-    font-size: 1.125rem;
-    flex: 1;
-    text-align: center;
-  }
-  
-  .tab-active {
-    background-color: #EBD2C3;
-    color: white;
-    border-top-left-radius: 1rem;
-  }
-  
-  .tab-inactive {
-    background-color: #F8E5D9;
-    color: #D5B49C;
-    border-top-right-radius: 1rem;
-  }
-  
-  /* Navigation bar */
-  .navbar {
-    display: flex;
-    justify-content: space-around;
-    background-color: #F8E5D9;
-    color: #7A5C4B;
-    padding: 0.75rem 0;
-    border-top: 1px solid #EBD2C3;
-  }
-  
-  .nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 0.875rem;
-  }
-  
-  .nav-active {
-    font-weight: 600;
-    color: black;
-  }
-  
-  /* Map icon rings */
-  .icon-ring-green {
-    border: 3px solid #2ecc71;
-    border-radius: 50%;
-    padding: 2px;
-    background-color: white;
-  }
-  
-  .icon-ring-blue {
-    border: 3px solid #3498db;
-    border-radius: 50%;
-    padding: 2px;
-    background-color: white;
-  }
-  
-  /* Create table button style */
-  .button-primary {
-    background-color: #d3b4a4;
-    color: white;
-    font-weight: 600;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    width: 100%;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  
-  .button-secondary {
-    border: 1px solid #ccc;
-    background-color: white;
-    font-weight: 600;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    width: 100%;
-    color: black;
-  }
-  
+  font-family: 'Inter', sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+}
+
+/* Tabs */
+.tab-button {
+  padding: 0.5rem 0;
+  font-weight: 600;
+  font-size: 1.125rem;
+  flex: 1;
+  text-align: center;
+}
+
+.tab-active {
+  background-color: #e0e7ff; /* light indigo */
+  color: #1e3a8a; /* dark indigo */
+  border-top-left-radius: 1rem;
+}
+
+.tab-inactive {
+  background-color: #f1f5f9; /* soft gray */
+  color: #64748b; /* slate gray */
+  border-top-right-radius: 1rem;
+}
+
+/* Navigation bar */
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  background-color: #f1f5f9;
+  color: #475569;
+  padding: 0.75rem 0;
+  border-top: 1px solid #e2e8f0;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.nav-active {
+  font-weight: 600;
+  color: #0f172a; /* very dark slate */
+}
+
+/* Map icon rings */
+.icon-ring-green {
+  border: 3px solid #22c55e; /* green-500 */
+  border-radius: 50%;
+  padding: 2px;
+  background-color: white;
+}
+
+.icon-ring-blue {
+  border: 3px solid #3b82f6; /* blue-500 */
+  border-radius: 50%;
+  padding: 2px;
+  background-color: white;
+}
+
+/* Buttons */
+.button-primary {
+  background-color: #3b82f6; /* blue-500 */
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.button-primary:hover {
+  background-color: #2563eb; /* blue-600 */
+}
+
+.button-secondary {
+  border: 1px solid #cbd5e1;
+  background-color: white;
+  font-weight: 600;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  color: #334155; /* slate-700 */
+}
+
+.button-secondary:hover {
+  background-color: #f8fafc; /* light hover */
+}

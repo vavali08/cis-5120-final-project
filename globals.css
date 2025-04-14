@@ -1,15 +1,17 @@
-/* Basic reset */
+
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Body styling */
+/* Body */
 body {
-  font-family: Inter;
-  background-color: #fceae4; /* A soft pink/peach background */
+  font-family: 'Inter', sans-serif;
+  background-color: #ffffff;
   color: #333;
+  line-height: 1.5;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -21,11 +23,11 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #f3cfc2;
-  padding: 0.5rem;
-  z-index: 1000; /* Ensures the header appears above other content */
+  background-color: #ffffff;
+  border-bottom: 1px solid #eee;
+  padding: 0.75rem;
+  z-index: 1000;
 }
-  
 .nav-tabs {
   display: flex;
   justify-content: space-end;
@@ -36,16 +38,18 @@ body {
   border: none;
   padding: 0.75rem 0;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   transition: background 0.2s;
+  color: #333;
 }
 .tab:hover {
-  background-color: #e6bcae;
+  background-color: #ffe5e5;
 }
 .tab.active {
-  background-color: #e6bcae;
+  background-color: #ffe0e0;
   border-radius: 8px;
+  color: #b6465f;
 }
 
 /* Main Content */
@@ -54,118 +58,94 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding-top: 8vh;
-  justify-content: center;
 }
 
 /* Search Bar */
-
-
 .search-container {
   display: flex;
   flex-direction: row;
   align-items: center;
   width: 25vw;
   margin-bottom: 2rem;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   border-radius: 8px;
   background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .search-input {
   width: 100%;
-  height: 100%;
   padding: 0.75rem;
-  border: 0px solid #ccc;
-  border-radius: 8px;
   font-size: 1rem;
+  border: none;
+  border-radius: 8px;
   background: url(./assets/icon.svg) no-repeat scroll 12px 12px;
   padding-left: 37px;
 }
 
-/* Meal Filters */
-.meal-filters {
+/* Filter Bar */
+.filter-bar {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
 }
-.meal-filter {
+.filter-select {
   flex: 1;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 20px;
+  min-width: 150px;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #333;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   font-size: 0.9rem;
   cursor: pointer;
-  background-color: #ffe7df;
-  transition: background 0.2s;
-}
-.meal-filter:hover {
-  background-color: #ffd7cb;
-}
-.meal-filter.active {
-  background-color: #ffc3b0;
-}
-
-/* Schedule Sections */
-.schedule-section {
-  margin-bottom: 2rem;
-}
-.section-title {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
 }
 
 /* Schedule Cards */
 .schedule-card {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   background-color: #fff;
   border-radius: 12px;
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
-  box-shadow: rgba(50, 50, 93, 0.1) 0px 4px 10px, rgba(0, 0, 0, 0.05) 0px 2px 5px;
-  width: 100%; /* 🔥 Stretch to container */
-  max-width: 600px; /* Optional: cap size on large screens */
+  width: 400px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
+.schedule-card.availability-card {
+  background-color: #fff8f0;
+  border-left: 4px solid #ffbb55;
+}
 
-/* Avatar */
+.schedule-left {
+  display: flex;
+  align-items: start;
+  flex: 1;
+}
 .avatar-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   margin-right: 0.75rem;
 }
-
 .avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
 }
-
-.schedule-left {
-  display: flex;
-  justify-content: start;
-  align-items: start;
-  flex: 1;
-}
-
 .schedule-name {
   font-size: 0.8rem;
   font-weight: 600;
   margin-top: 0.2rem;
 }
-
-/* Schedule Info */
 .schedule-info {
   display: flex;
   flex-direction: column;
-  justify-content: start;
-  align-items: start;
 }
 .schedule-time {
   font-size: 0.9rem;
@@ -192,78 +172,91 @@ body {
   min-width: 21px;
   height: 24px;
 }
-
-/* Different statuses (confirmed, pending, declined) */
 .confirmed {
-  background-color: #d4f8e8;
-  color: #2d7d5b;
+  background-color: #e6fff0;
+  color: #26734d;
 }
 .pending {
-  background-color: #fff4c2;
-  color: #9e8600;
+  background-color: #fff5cc;
+  color: #a67c00;
 }
 .declined {
-  background-color: #ffe3e3;
-  color: #b73a3a;
+  background-color: #ffe6e6;
+  color: #a94442;
+}
+
+/* Availability Tag */
+.availability-tag {
+  font-size: 0.75rem;
+  color: #ff8800;
+  background-color: #fff0d6;
+  padding: 2px 6px;
+  border-radius: 8px;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+/* Section Title */
+.section-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 
 /* Add Button */
 .add-button-container {
   display: flex;
-  justify-content: center;
-  margin-top: 1rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
   margin-bottom: 10vh;
 }
 
 .add-button {
-  background-color: #ffb099;
+  background-color: #4a90e2;
   border: none;
   border-radius: 20px;
   color: #fff;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
   cursor: pointer;
-  width: 15vw;
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  width: 200px;
+  text-align: center;
   font-weight: 600;
-}
-.add-button:hover {
-  background-color: #ff9a85;
+  transition: background-color 0.3s;
 }
 
-/* Bottom Navigation */
+.add-button:hover {
+  background-color: #357ab7;
+}
+
+/* Footer Navigation */
 .footer {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  z-index: 1000; 
-  background-color: #f3cfc2;
+  background-color: #ffffff;
+  border-top: 1px solid #ddd;
   padding: 0.5rem 0;
 }
 .bottom-nav {
   display: flex;
-  justify-content: end;
+  justify-content: space-around;
 }
 .nav-item {
-  flex: 1;
   text-align: center;
   padding: 0.5rem 0;
-  color: #333;
-  text-decoration: none;
+  color: #555;
   font-weight: 600;
-  transition: background 0.2s;
+  text-decoration: none;
 }
 .nav-item:hover {
-  background-color: #e6bcae;
+  background-color: #ffe0e0;
   border-radius: 8px;
 }
 
-.dialog-overlay h2 {
-  margin-bottom: 20px;
-  text-align: center;
-}
-
+/* Dialog Styles */
 .dialog-overlay {
   position: fixed;
   top: 0; left: 0;
@@ -275,7 +268,7 @@ body {
   z-index: 1000;
 }
 .dialog {
-  background: #fceae4;
+  background: #fff;
   padding: 2rem;
   border-radius: 8px;
   width: 90%;
@@ -287,113 +280,21 @@ body {
   justify-content: flex-end;
   gap: 1rem;
 }
-label {
-  display: block;
-  margin-bottom: 1rem;
-  font-weight: 600;
-}
-input, select {
-  width: 100%;
-  padding: 0.5rem;
-  margin-top: 0.25rem;
-}
-
 .dialog-actions button {
-  background-color: #ffb099;
+  background-color: #ffb3b3;
   border: none;
   border-radius: 20px;
   color: #fff;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
   cursor: pointer;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   font-weight: 600;
-  margin-top: 10px;
 }
 
-
-/* Responsive adjustments (optional) */
-@media (min-width: 480px) {
-  .main-content {
-    max-width: 420px;
-    margin: 0 auto;
-  }
-}
-
-/* Filter Component Styling */
-.filter-container {
-  width: 100%;
-  margin-bottom: 1rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 40px;
-}
-
-.filter-group {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  width: 25vw;
-}
-
-.filter-select {
-  flex: 1;
-  padding: 0.6rem;
-  border: 1px solid #e6bcae;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  background-color: white;
-  color: #333;
-  cursor: pointer;
-  transition: border-color 0.2s;
-  min-width: 200px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-}
-
-.filter-select:hover {
-  border-color: #ffb099;
-}
-
-
-/* No results message */
+/* No Results */
 .no-results {
   text-align: center;
   margin: 2rem 0;
   color: #999;
   font-style: italic;
-}
-
-.filter-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-}
-
-.filter-select {
-  flex: 1;
-  min-width: 150px;
-  padding: 0.5rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.schedule-card.availability-card {
-  background-color: #fff8f0;
-  border-left: 4px solid #ffbb55;
-}
-
-.availability-tag {
-  font-size: 0.75rem;
-  color: #ff8800;
-  background-color: #fff0d6;
-  padding: 2px 6px;
-  border-radius: 8px;
-  display: inline-block;
-  margin-top: 4px;
 }
