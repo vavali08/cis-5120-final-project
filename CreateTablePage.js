@@ -1,12 +1,43 @@
 function CreateTablePage({ locationId }) {
   const [tableName, setTableName] = React.useState(locationId ? `${locationId} Table` : "");
-  const [location, setLocation] = React.useState(locationId || "");
+  const [latitude, setLatitude] = React.useState(null);
+  const [longitude, setLongitude] = React.useState(null);
   const [diningType, setDiningType] = React.useState("Lunch");
   const [date, setDate] = React.useState("");
   const [startTime, setStartTime] = React.useState("");
   const [endTime, setEndTime] = React.useState("");
   const [dishes, setDishes] = React.useState([""]);
+  const [showMap, setShowMap] = React.useState(false);
+  const mapRef = React.useRef(null);
   const userId = localStorage.getItem("user_id");
+  const [isMapOpen, setIsMapOpen] = React.useState(false);
+  const [selectedLocation, setSelectedLocation] = React.useState(locationId ? {
+    name: locationId,
+    lat: null,
+    lng: null
+  } : null);
+
+
+  React.useEffect(() => {
+    if (showMap && mapRef.current && !mapRef.current._leaflet_id) {
+      const map = L.map(mapRef.current).setView([39.9545, -75.1994], 16);
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "© OpenStreetMap",
+      }).addTo(map);
+
+      let selectedMarker = null;
+
+      map.on("click", (e) => {
+        const { lat, lng } = e.latlng;
+        setLatitude(lat);
+        setLongitude(lng);
+        setLocation("Custom Location");
+        if (selectedMarker) map.removeLayer(selectedMarker);
+        selectedMarker = L.marker([lat, lng]).addTo(map);
+      });
+    }
+  }, [showMap]);
 
   function handleAddDish() {
     setDishes([...dishes, ""]);
@@ -19,32 +50,42 @@ function CreateTablePage({ locationId }) {
   }
 
   function handleSubmit() {
-    if (!tableName || !date || !startTime || !endTime) {
+    if (!tableName || !date || !startTime || !endTime || !selectedLocation) {
+      console.log(tableName, date, startTime, endTime, location);
       alert("Please fill in all required fields.");
       return;
     }
 
     const event = {
       title: tableName,
-      location,
+      location: selectedLocation?.name || "",
       dining_type: diningType,
       date,
       time_range: `${startTime} - ${endTime}`,
-      latitude: null,
-      longitude: null,
+      latitude: selectedLocation?.lat || null,
+      longitude: selectedLocation?.lng || null,
       is_public: true,
       is_availability: false,
       host_id: userId,
       dishes: dishes.filter(d => d.trim() !== "")
     };
+    
+
+    if (location === "Custom Location" && latitude && longitude) {
+      event.latitude = latitude;
+      event.longitude = longitude;
+    } else {
+      event.latitude = null;
+      event.longitude = null;
+    }
 
     fetch("http://localhost:3001/api/events", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(event)
+      body: JSON.stringify(event),
     })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then(() => {
         alert("Table created!");
         window.location.hash = "#calendar";
       });
@@ -62,13 +103,37 @@ function CreateTablePage({ locationId }) {
         className="w-full mb-2 px-4 py-2 rounded border"
       />
 
-      <input
-        type="text"
-        value={location}
-        onChange={(e) => setLocation(e.target.value)}
-        placeholder="Location"
-        className="w-full mb-2 px-4 py-2 rounded border"
+      <div className="mb-2">
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={selectedLocation?.name || ""}
+            onChange={(e) =>
+              setSelectedLocation({ name: e.target.value, lat: null, lng: null })
+            }
+            placeholder="Location"
+            className="flex-1 px-4 py-2 rounded border"
+          />
+          <button
+            className="button-secondary"
+            type="button"
+            onClick={() => setIsMapOpen(true)}
+          >
+            🗺️ Pick from Map
+          </button>
+        </div>
+        {selectedLocation?.lat && (
+          <p className="text-sm text-green-700 mt-1">
+            Selected: {selectedLocation.name}
+          </p>
+        )}
+      </div>
+      <MapSelectorModal
+        isOpen={isMapOpen}
+        onClose={() => setIsMapOpen(false)}
+        onSelect={(loc) => setSelectedLocation(loc)}
       />
+
 
       <div className="flex gap-2 mb-2">
         <input
