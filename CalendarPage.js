@@ -99,6 +99,15 @@ function CalendarPage() {
           />
         </div>
 
+        <div className="add-button-container">
+          <button className="add-button" onClick={() => window.location.hash = "#event/create"}>
+            Create A Table
+          </button>
+          <button className="add-button mt-2" onClick={() => window.location.hash = "#availability/create"}>
+            Add Availability
+          </button>
+        </div>
+
         <div className="filter-bar">
           <select
             className="filter-select"
@@ -154,14 +163,6 @@ function CalendarPage() {
           </div>
         )}
 
-        <div className="add-button-container">
-          <button className="add-button" onClick={() => window.location.hash = "#event/create"}>
-            Create A Table
-          </button>
-          <button className="add-button mt-2" onClick={() => window.location.hash = "#availability/create"}>
-            Add Availability
-          </button>
-        </div>
       </main>
 
       <footer className="footer">
