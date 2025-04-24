@@ -165,13 +165,7 @@ function CalendarPage() {
 
       </main>
 
-      <footer className="footer">
-        <nav className="bottom-nav">
-          <a href="#calendar" className="nav-item">Calendar</a>
-          <a href="#events" className="nav-item">Events</a>
-          <a href="#profile" className="nav-item">Profile</a>
-        </nav>
-      </footer>
+      <Navigation/>
 
       <AddScheduleDialog
         isOpen={isDialogOpen}

@@ -1,6 +1,4 @@
 function Navigation() {
-  const route = window.location.hash || "#events";
-
   const navItems = [
     { name: "Calendar", icon: "/icons/calendar-xmark-solid.svg", hash: "#calendar" },
     { name: "Events", icon: "/icons/map-solid.svg", hash: "#events" },
@@ -8,18 +6,19 @@ function Navigation() {
   ];
 
   return (
-    <nav className="navbar">
-      {navItems.map((item) => (
-        <a
-          key={item.hash}
-          href={item.hash}
-          className={`nav-item ${route === item.hash ? "nav-active" : ""}`}
-        >
-          <img src={item.icon} alt={item.name} className="w-6 h-6 mb-1" />
-          <span>{item.name}</span>
-        </a>
-      ))}
-    </nav>
+    <div className="fixed bottom-0 left-0 w-full z-50 bg-[#e0f0ff] border-t border-blue-200 shadow-inner">
+      <nav className="flex justify-around py-3">
+        {navItems.map((item) => (
+          <a
+            key={item.name}
+            href={item.hash}
+            className="flex flex-col items-center text-sm text-[#1a3a5f] font-semibold hover:text-black"
+          >
+            <img src={item.icon} alt={item.name} className="w-5 h-5 mb-1" />
+            {item.name}
+          </a>
+        ))}
+      </nav>
+    </div>
   );
 }
-
