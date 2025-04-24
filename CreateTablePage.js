@@ -92,115 +92,119 @@ function CreateTablePage({ locationId }) {
   }
 
   return (
-    <div className="flex flex-col min-h-screen pb-16 bg-[#fef5f1] p-4">
-      <h1 className="text-lg font-bold mb-4">Create Table {locationId && `at ${locationId}`}</h1>
-
-      <input
-        type="text"
-        value={tableName}
-        onChange={(e) => setTableName(e.target.value)}
-        placeholder="Table Name"
-        className="w-full mb-2 px-4 py-2 rounded border"
-      />
-
-      <input
-        type="text"
-        value={location}
-        onChange={(e) => handleLocationInput(e.target.value)}
-        placeholder="Select or enter location"
-        list="location-options"
-        className="w-full mb-2 px-4 py-2 rounded border"
-      />
-      <datalist id="location-options">
-        {defaultLocations.map((loc, i) => (
-          <option key={i} value={loc.name} />
-        ))}
-      </datalist>
-
-      <div className="flex gap-2 mb-2">
+    <div className="flex flex-col min-h-screen pb-16 bg-[#f6fbff] p-6">
+      <h1 className="text-2xl font-bold mb-4 text-[#3a2e20]">Create Table {locationId && `at ${locationId}`}</h1>
+  
+      <div className="space-y-4 max-w-xl w-full mx-auto">
+  
         <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="flex-1 px-4 py-2 rounded border"
+          type="text"
+          value={tableName}
+          onChange={(e) => setTableName(e.target.value)}
+          placeholder="Table Name"
+          className="w-full px-4 py-2 rounded border bg-white"
         />
-        <select
-          value={diningType}
-          onChange={(e) => setDiningType(e.target.value)}
-          className="flex-1 px-4 py-2 rounded border"
-        >
-          <option value="Lunch">Lunch</option>
-          <option value="Dinner">Dinner</option>
-        </select>
-      </div>
-
-      <div className="flex gap-2 mb-2">
+  
         <input
-          type="time"
-          value={startTime}
-          onChange={(e) => setStartTime(e.target.value)}
-          className="flex-1 px-4 py-2 rounded border"
+          type="text"
+          value={location}
+          onChange={(e) => handleLocationInput(e.target.value)}
+          placeholder="Select or enter location"
+          list="location-options"
+          className="w-full px-4 py-2 rounded border bg-white"
         />
-        <input
-          type="time"
-          value={endTime}
-          onChange={(e) => setEndTime(e.target.value)}
-          className="flex-1 px-4 py-2 rounded border"
-        />
-      </div>
-
-
-      <div className="mt-4">
-        <label className="font-semibold">Invite Friends:</label>
-            <div className="bg-white border rounded p-2 mt-1 space-y-1">
-      {friends.map(friend => (
-        <label key={friend.id} className="flex items-center gap-2 text-sm">
+        <datalist id="location-options">
+          {defaultLocations.map((loc, i) => (
+            <option key={i} value={loc.name} />
+          ))}
+        </datalist>
+  
+        <div className="flex gap-2">
           <input
-            type="checkbox"
-            value={friend.id}
-            checked={invitedFriends.includes(friend.id)}
-            onChange={(e) => {
-              const id = friend.id;
-              setInvitedFriends(prev =>
-                e.target.checked ? [...prev, id] : prev.filter(f => f !== id)
-              );
-            }}
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            className="flex-1 px-4 py-2 rounded border bg-white"
           />
-          {friend.name}
-        </label>
-      ))}
-    </div>
-
+          <select
+            value={diningType}
+            onChange={(e) => setDiningType(e.target.value)}
+            className="flex-1 px-4 py-2 rounded border bg-white"
+          >
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+          </select>
+        </div>
+  
+        <div className="flex gap-2">
+          <input
+            type="time"
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
+            className="flex-1 px-4 py-2 rounded border bg-white"
+          />
+          <input
+            type="time"
+            value={endTime}
+            onChange={(e) => setEndTime(e.target.value)}
+            className="flex-1 px-4 py-2 rounded border bg-white"
+          />
+        </div>
+  
+        <div>
+          <label className="font-semibold text-[#3a2e20]">Invite Friends:</label>
+          <div className="bg-white border rounded p-3 mt-1 space-y-2 max-h-48 overflow-auto">
+            {friends.map(friend => (
+              <label key={friend.id} className="flex items-center gap-3 text-sm text-[#3a2e20]">
+                <input
+                  type="checkbox"
+                  className="accent-blue-600"
+                  value={friend.id}
+                  checked={invitedFriends.includes(friend.id)}
+                  onChange={(e) => {
+                    const id = friend.id;
+                    setInvitedFriends(prev =>
+                      e.target.checked ? [...prev, id] : prev.filter(f => f !== id)
+                    );
+                  }}
+                />
+                {friend.name}
+              </label>
+            ))}
+          </div>
+        </div>
+  
+        <div>
+          <label className="font-semibold text-[#3a2e20]">Dishes:</label>
+          {dishes.map((dish, i) => (
+            <input
+              key={i}
+              value={dish}
+              onChange={(e) => handleChangeDish(i, e.target.value)}
+              placeholder={`Dish ${i + 1}`}
+              className="w-full mb-1 px-4 py-2 rounded border bg-white"
+            />
+          ))}
+          <button
+            onClick={handleAddDish}
+            className="mt-1 text-sm text-blue-600 underline"
+          >
+            + Add Another Dish
+          </button>
+        </div>
+  
+        <button
+          onClick={handleSubmit}
+          className="bg-blue-500 text-white font-semibold px-6 py-2 rounded-xl w-full shadow-sm hover:bg-blue-600 transition"
+        >
+          Create Table
+        </button>
       </div>
-
-
-      <label className="font-semibold">Dishes:</label>
-      {dishes.map((dish, i) => (
-        <input
-          key={i}
-          value={dish}
-          onChange={(e) => handleChangeDish(i, e.target.value)}
-          placeholder={`Dish ${i + 1}`}
-          className="w-full mb-1 px-4 py-2 rounded border"
-        />
-      ))}
-      <button
-        onClick={handleAddDish}
-        className="mt-1 text-sm text-blue-600 underline"
-      >
-        + Add Another Dish
-      </button>
-
-      <button
-        onClick={handleSubmit}
-        className="button-primary mt-4"
-      >
-        Create Table
-      </button>
-
+  
       <Navigation />
     </div>
   );
+  
 }
 
 window.CreateTablePage = CreateTablePage;

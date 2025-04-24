@@ -95,7 +95,7 @@ function EventDetailPage({ eventId }) {
   if (!event) return <div className="p-4 text-white">Loading...</div>;
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-[#f6fbff]">
       <div className="text-center py-6 text-xl font-bold text-gray-800">
         Event Details
       </div>

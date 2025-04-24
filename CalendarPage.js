@@ -70,7 +70,7 @@ function CalendarPage() {
   }
 
   return (
-    <div>
+    <div className="bg-[#f6fbff]">
       <header className="header">
         <div className="nav-tabs">
           <button
