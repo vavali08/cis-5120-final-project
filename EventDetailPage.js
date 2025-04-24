@@ -66,6 +66,20 @@ function EventDetailPage({ eventId }) {
     }
   }
 
+  function handleDeleteEvent() {
+    if (confirm("Are you sure you want to delete this event?")) {
+      fetch(`http://localhost:3001/api/events/${eventId}`, {
+        method: 'DELETE'
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert("Event deleted.");
+        window.location.hash = "#calendar";
+      });
+    }
+  }
+
+  
   if (!event) return <div className="p-4 text-white">Loading...</div>;
 
   return (
@@ -105,7 +119,18 @@ function EventDetailPage({ eventId }) {
             <button className="bg-[#e3bfa2] px-4 py-2 rounded text-white">
               Edit Event (Coming Soon)
             </button>
-          </div>
+            <div className="flex gap-2 mt-4">
+              <button className="bg-[#e3bfa2] px-4 py-2 rounded text-white">
+                Edit Event (Coming Soon)
+              </button>
+              <button
+                onClick={handleDeleteEvent}
+                className="bg-red-500 px-4 py-2 rounded text-white"
+              >
+                Delete Event
+              </button>
+            </div>
+          </div>       
         ) : (
           alreadyRequested ? (
             <button className="button-disabled w-full mt-4" disabled>

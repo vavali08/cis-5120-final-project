@@ -274,6 +274,23 @@ app.get('/api/events/location/:location', (req, res) => {
   );
 });
 
+// EVENTS PAGE
+// delete an event from the events page
+app.delete('/api/events/:id', (req, res) => {
+  const eventId = req.params.id;
+
+  // Delete attendees first to satisfy foreign key constraint (if exists)
+  db.query('DELETE FROM event_participants WHERE event_id = ?', [eventId], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+
+    // Then delete event
+    db.query('DELETE FROM events WHERE id = ?', [eventId], (err) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json({ success: true });
+    });
+  });
+});
+
 
 // Test DB connection
 console.log("Registering /api/test-db route...");
