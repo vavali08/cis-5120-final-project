@@ -65,10 +65,6 @@ function ProfilePage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f9f9f9]">
-      <div className="bg-[#1f2937] text-white p-4 text-lg font-semibold">
-        Profile Page
-      </div>
-
       <div className="p-4 space-y-4 flex-grow">
         {/* Profile Header */}
         <div className="flex justify-between items-center">

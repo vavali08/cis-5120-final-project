@@ -39,9 +39,6 @@ function EventMapPage() {
   }, []);
   return (
     <div className="flex flex-col h-screen overflow-hidden">
-      <div className="bg-black text-white p-3 pl-4 text-md font-medium">
-        Event Page Map
-      </div>
   
       <div ref={mapRef} className="flex-grow w-full z-0" />
   

@@ -1,7 +1,7 @@
 function Navigation() {
   const navItems = [
     { name: "Calendar", icon: "/icons/calendar-xmark-solid.svg", hash: "#calendar" },
-    { name: "Events", icon: "/icons/map-solid.svg", hash: "#events" },
+    { name: "Event Map", icon: "/icons/map-solid.svg", hash: "#map" },
     { name: "Profile", icon: "/icons/circle-user-solid.svg", hash: "#profile" },
   ];
 
