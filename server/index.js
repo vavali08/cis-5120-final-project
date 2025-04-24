@@ -87,6 +87,7 @@ app.get('/api/users/:id/friends', (req, res) => {
 
 // EVENTS/EVENT MAPS
 
+// Create new avent
 app.post('/api/events', (req, res) => {
   const {
     title, host_id, location, date,
@@ -115,6 +116,24 @@ app.post('/api/events', (req, res) => {
     });
   });
 });
+
+// Invite to event
+app.post('/api/events/:id/invite', (req, res) => {
+  const eventId = req.params.id;
+  const { user_id } = req.body;
+
+  const sql = `
+    INSERT INTO event_participants (event_id, user_id, status)
+    VALUES (?, ?, 'invitation_pending')
+    ON DUPLICATE KEY UPDATE status = 'invitation_pending'
+  `;
+
+  db.query(sql, [eventId, user_id], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ success: true });
+  });
+});
+
 
 
 // Query to get user's schedule

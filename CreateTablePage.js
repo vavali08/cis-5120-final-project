@@ -8,8 +8,22 @@ function CreateTablePage({ locationId }) {
   const [startTime, setStartTime] = React.useState("");
   const [endTime, setEndTime] = React.useState("");
   const [dishes, setDishes] = React.useState([""]);
+  const [friends, setFriends] = React.useState([]);
+  const [invitedFriends, setInvitedFriends] = React.useState([]);
+
   const userId = localStorage.getItem("user_id");
 
+  React.useEffect(() => {
+    fetch(`http://localhost:3001/api/users/${userId}/friends`)
+      .then(res => res.json())
+      .then(data => {
+        setFriends(data.map(friend => ({
+          id: friend.id,
+          name: friend.username
+        })));
+      });
+  }, [userId]);
+  
   function handleAddDish() {
     setDishes([...dishes, ""]);
   }
@@ -46,10 +60,21 @@ function CreateTablePage({ locationId }) {
       body: JSON.stringify(event)
     })
       .then(res => res.json())
-      .then(() => {
+      .then(data => {
+        const eventId = data.id;
+        if (invitedFriends.length > 0) {
+          invitedFriends.forEach(friendId => {
+            fetch(`http://localhost:3001/api/events/${eventId}/invite`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ user_id: friendId })
+            });
+          });
+        }
         alert("Table created!");
         window.location.hash = "#calendar";
       });
+      
   }
 
   function handleLocationInput(value) {
@@ -123,6 +148,31 @@ function CreateTablePage({ locationId }) {
           className="flex-1 px-4 py-2 rounded border"
         />
       </div>
+
+
+      <div className="mt-4">
+        <label className="font-semibold">Invite Friends:</label>
+            <div className="bg-white border rounded p-2 mt-1 space-y-1">
+      {friends.map(friend => (
+        <label key={friend.id} className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            value={friend.id}
+            checked={invitedFriends.includes(friend.id)}
+            onChange={(e) => {
+              const id = friend.id;
+              setInvitedFriends(prev =>
+                e.target.checked ? [...prev, id] : prev.filter(f => f !== id)
+              );
+            }}
+          />
+          {friend.name}
+        </label>
+      ))}
+    </div>
+
+      </div>
+
 
       <label className="font-semibold">Dishes:</label>
       {dishes.map((dish, i) => (

@@ -123,7 +123,6 @@ function EventDetailPage({ eventId }) {
           {(isHost ? attendees : attendees.filter(p => p.status === 'confirmed')).map((p, i) => (
             <div key={i} className="flex justify-between items-center p-3 mb-2 bg-white rounded-xl shadow-sm">
               <div className="flex items-center gap-2">
-                <img src={p.avatar_url || '/default.png'} className="w-6 h-6 rounded-full" />
                 <span>{p.username}</span>
               </div>
               {isHost && (
