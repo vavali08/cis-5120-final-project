@@ -11,18 +11,13 @@ function EventMapPage() {
 
     // Add default markers
     defaultLocations.forEach(loc => {
-      const icon = L.icon({
-        iconUrl: loc.icon,
-        iconSize: [32, 32],
-        iconAnchor: [16, 32]
-      });
-
-      L.marker([loc.lat, loc.lng], { icon })
+      L.marker([loc.lat, loc.lng])
         .addTo(map)
         .on("click", () => {
           window.location.hash = `#location/${loc.id}`;
         });
     });
+    
 
     // Add event locations from DB
     fetch(`http://localhost:3001/api/users/${userId}/events`)
