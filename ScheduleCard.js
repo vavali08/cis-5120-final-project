@@ -57,9 +57,6 @@ function ScheduleCard({ schedule }) {
           <div className="schedule-time">{schedule.time}</div>
           <div className="schedule-meal">{schedule.diningType}</div>
           <div className="schedule-location">{schedule.location}</div>
-          {isAvailability && (
-            <div className="availability-tag">Available</div>
-          )}
         </div>
       </div>
 

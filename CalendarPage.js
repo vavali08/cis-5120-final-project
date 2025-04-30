@@ -159,7 +159,7 @@ function CalendarPage() {
           })
         ) : (
           <div className="no-results">
-            <p>No schedules match your filters</p>
+            <p>No events match your filters</p>
           </div>
         )}
 
