@@ -19,7 +19,7 @@ const defaultLocations = [
       name: "Houston Market",
       lat: 39.95115,
       lng: -75.19383,
-      image: "images/houston.jpeg"
+      image: "images/houston.jpg"
     },
     {
       id: "commons",
@@ -33,7 +33,7 @@ const defaultLocations = [
       name: "Sweetgreen",
       lat: 39.95384,
       lng: -75.19526,
-      image: "/images/sweetgreen.jpeg.webp"
+      image: "/images/sweetgreen.jpg.webp"
     },
     {
       id: "greeklady",
