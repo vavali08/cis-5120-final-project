@@ -352,16 +352,16 @@ app.put('/api/events/:id', (req, res) => {
   const eventId = req.params.id;
   const {
     title, location, latitude, longitude,
-    date, dining_type, time_range
+    date, dining_type, time_range, is_public
   } = req.body;
 
   const sql = `
     UPDATE events
-    SET title = ?, location = ?, latitude = ?, longitude = ?, date = ?, dining_type = ?, time_range = ?
+    SET title = ?, location = ?, latitude = ?, longitude = ?, date = ?, dining_type = ?, time_range = ?, is_public = ?
     WHERE id = ?
   `;
 
-  const values = [title, location, latitude, longitude, date, dining_type, time_range, eventId];
+  const values = [title, location, latitude, longitude, date, dining_type, time_range, is_public, eventId];
 
   db.query(sql, values, (err) => {
     if (err) {

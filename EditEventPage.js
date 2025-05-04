@@ -8,6 +8,7 @@ function EditEventPage({ eventId }) {
     const [startTime, setStartTime] = React.useState("");
     const [endTime, setEndTime] = React.useState("");
     const [diningType, setDiningType] = React.useState("Lunch");
+    const [isPublic, setIsPublic] = React.useState(true); // default to public
   
     const userId = localStorage.getItem("user_id");
   
@@ -25,6 +26,7 @@ function EditEventPage({ eventId }) {
           setEndTime(end);
           setLatitude(data.latitude);
           setLongitude(data.longitude);
+          setIsPublic(data.is_public);
         });
     }, [eventId, userId]);
   
@@ -56,6 +58,7 @@ function EditEventPage({ eventId }) {
           date,
           dining_type: diningType,
           time_range: `${startTime} - ${endTime}`,
+            is_public: isPublic,
         };
       
         fetch(`http://localhost:3001/api/events/${eventId}`, {
@@ -138,6 +141,16 @@ function EditEventPage({ eventId }) {
               className="flex-1 px-4 py-2 rounded border bg-white"
             />
           </div>
+
+          <div className="flex items-center gap-2">
+            <label className="text-sm font-medium text-gray-800">Make Event Public</label>
+            <input
+                type="checkbox"
+                checked={isPublic}
+                onChange={(e) => setIsPublic(e.target.checked)}
+                className="accent-blue-600"
+            />
+            </div>
   
           <button
             onClick={handleSubmit}

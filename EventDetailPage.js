@@ -105,6 +105,9 @@ function EventDetailPage({ eventId }) {
           <span className="font-semibold">Host:</span> {event.host_name || 'Anonymous'}
         </div>
         <div className="text-gray-700">
+          <span className="font-semibold">Visibility:</span> {event.is_public ? "Public" : "Private"}
+        </div>
+        <div className="text-gray-700">
           <span className="font-semibold">Location:</span> {event.location}
         </div>
         <div className="text-gray-700">

@@ -10,6 +10,7 @@ function CreateTablePage({ locationId }) {
   const [dishes, setDishes] = React.useState([""]);
   const [friends, setFriends] = React.useState([]);
   const [invitedFriends, setInvitedFriends] = React.useState([]);
+  const [isPublic, setIsPublic] = React.useState(true); // default to public
 
   const userId = localStorage.getItem("user_id");
 
@@ -48,7 +49,7 @@ function CreateTablePage({ locationId }) {
       time_range: `${startTime} - ${endTime}`,
       latitude,
       longitude,
-      is_public: true,
+      is_public: isPublic,
       is_availability: false,
       host_id: userId,
       dishes: dishes.filter(d => d.trim() !== "")
@@ -191,6 +192,16 @@ function CreateTablePage({ locationId }) {
           >
             + Add Another Dish
           </button>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <label className="text-sm font-medium text-gray-800">Make Event Public</label>
+          <input
+            type="checkbox"
+            checked={isPublic}
+            onChange={(e) => setIsPublic(e.target.checked)}
+            className="accent-blue-600"
+          />
         </div>
   
         <button
