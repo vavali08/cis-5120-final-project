@@ -13,36 +13,35 @@ function EventMapPage() {
     defaultLocations.forEach(loc => {
       L.marker([loc.lat, loc.lng])
         .addTo(map)
+        .bindTooltip(loc.name, { permanent: false, direction: "top" })
         .on("click", () => {
           window.location.hash = `#location/${loc.id}`;
         });
     });
-    
 
     // Add event locations from DB
     fetch(`http://localhost:3001/api/users/${userId}/events`)
       .then(res => res.json())
       .then(events => {
         events.forEach(event => {
-          const marker = L.marker([event.latitude, event.longitude])
+          L.marker([event.latitude, event.longitude])
             .addTo(map)
+            .bindTooltip(event.location, { permanent: false, direction: "top" })
             .on("click", () => {
               window.location.hash = `#event/${event.id}`;
             });
         });
       });
   }, []);
+
   return (
     <div className="flex flex-col h-screen overflow-hidden">
-  
       <div ref={mapRef} className="flex-grow w-full z-0" />
-  
       <div className="z-10">
         <Navigation />
       </div>
     </div>
   );
-  
 }
 
 window.EventMapPage = EventMapPage;
