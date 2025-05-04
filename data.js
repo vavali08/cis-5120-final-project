@@ -94,8 +94,8 @@ const defaultLocations = [
     {
       id: "handynasty",
       name: "Han Dynasty",
-      lat: 39.95450,
-      lng: -75.20225,
+      lat: 39.95669,
+      lng: -75.19709,
       image: "/images/handynasty.jpg"
     }
   ];
