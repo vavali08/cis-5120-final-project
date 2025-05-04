@@ -93,7 +93,7 @@ function ProfilePage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#f6fbff]">
+    <div className="flex flex-col min-h-screen bg-[#F1FAEE]">
       <div className="p-4 space-y-4 flex-grow">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
@@ -110,18 +110,18 @@ function ProfilePage() {
           </div>
           <button
             onClick={isEditingProfile ? handleSaveProfile : () => setIsEditingProfile(true)}
-            className="bg-gray-200 px-3 py-1 rounded-md text-sm font-medium"
+            className="bg-white px-3 py-1 rounded-md text-sm font-medium shadow-md"
           >
             {isEditingProfile ? "Save Profile" : "Edit Profile"}
           </button>
         </div>
 
-        <div className="bg-white p-4 rounded-xl shadow">
+        <div className="bg-white p-4 rounded-xl shadow-md">
           <h3 className="font-semibold text-gray-800 mb-2">Friends</h3>
           <div className="flex gap-4 flex-wrap">
             {friends.map((friend, idx) => (
               <div key={idx} className="flex flex-col items-center">
-                <div className="w-12 h-12 bg-indigo-400 text-white rounded-full flex items-center justify-center font-bold">
+                <div className="w-12 h-12 bg-[#3E5C76] text-white rounded-full flex items-center justify-center font-bold">
                   {friend[0].toUpperCase()}
                 </div>
                 <span className="text-xs text-gray-700 mt-1">{friend}</span>
@@ -138,14 +138,14 @@ function ProfilePage() {
             />
             <button
               onClick={handleSendFriendRequest}
-              className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium"
+              className="bg-[#3E5C76] text-white  px-3 py-1 rounded-full text-sm font-medium"
             >
               Submit
             </button>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-xl shadow">
+        <div className="bg-white p-4 rounded-xl shadow-md">
           <h3 className="font-semibold text-gray-800 mb-2">Dietary Preferences</h3>
           <div className="flex flex-wrap gap-2">
             {dietaryPreferences.map((pref, idx) => (
@@ -177,14 +177,14 @@ function ProfilePage() {
             />
             <button
               onClick={handleAddPreference}
-              className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium"
+              className="bg-[#3E5C76] text-white px-3 py-1 rounded-full text-sm font-medium"
             >
               Add
             </button>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-xl shadow mb-20">
+        <div className="bg-white p-4 rounded-xl shadow-md">
           <h3 className="font-semibold text-gray-800 mb-2">Dining Budget</h3>
           <div className="flex justify-between items-center mb-2">
             <span>Weekly Budget</span>

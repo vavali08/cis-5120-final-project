@@ -94,12 +94,12 @@ function EventDetailPage({ eventId }) {
   if (!event) return <div className="p-4 text-white">Loading...</div>;
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#f6fbff]">
+    <div className="flex flex-col min-h-screen bg-[#F1FAEE]">
       <div className="text-center py-6 text-xl font-bold text-gray-800">
         Event Details
       </div>
 
-      <div className="bg-blue-50 p-6 space-y-4 mx-4 rounded-xl shadow max-w-2xl self-center">
+      <div className="bg-[#E6EEF8] p-6 space-y-4 mx-4 rounded-xl shadow-xl self-center">
         <h2 className="text-xl font-bold">{event.title}</h2>
         <div className="text-gray-700">
           <span className="font-semibold">Host:</span> {event.host_name || 'Anonymous'}
@@ -161,7 +161,7 @@ function EventDetailPage({ eventId }) {
               </select>
               <button
                 onClick={() => handleInviteFriend(selectedFriend)}
-                className="ml-2 px-3 py-1 bg-blue-600 text-white text-sm rounded"
+                className="ml-2 px-3 py-1 bg-[#00afb9] text-white text-sm rounded"
               >
                 Invite
               </button>
@@ -191,7 +191,7 @@ function EventDetailPage({ eventId }) {
           <div className="mt-4 space-y-2">
             <button
               onClick={() => { window.location.hash = `#event-edit/${eventId}`; }}
-              className="bg-[#4a90e2] text-white font-semibold px-6 py-2 rounded-xl w-full shadow-sm"
+              className="bg-[#0081a7] text-white font-semibold px-6 py-2 rounded-xl w-full shadow-sm mt-5"
             >
               Edit Event
             </button>
@@ -206,7 +206,7 @@ function EventDetailPage({ eventId }) {
                     });
                 }
               }}
-              className="bg-red-500 text-white font-semibold px-6 py-2 rounded-xl w-full shadow-sm"
+              className="bg-[#f07167] text-white font-semibold px-6 py-2 rounded-xl w-full shadow-sm"
             >
               Delete Event
             </button>

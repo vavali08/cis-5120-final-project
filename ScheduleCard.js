@@ -48,6 +48,7 @@ function ScheduleCard({ schedule }) {
       onClick={handleClick}
       style={{ cursor: isAvailability ? 'default' : 'pointer' }}
     >
+      
       <div className="schedule-left">
         <div className="avatar-container">
           <img src={getAvatarIcon()} alt="Avatar" className="avatar" />

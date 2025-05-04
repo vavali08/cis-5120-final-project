@@ -98,18 +98,8 @@ function CalendarPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-
-        <div className="add-button-container">
-          <button className="add-button" onClick={() => window.location.hash = "#event/create"}>
-            Create A Table
-          </button>
-          <button className="add-button mt-2" onClick={() => window.location.hash = "#availability/create"}>
-            Add Availability
-          </button>
-        </div>
-
-        <div className="filter-bar space-y-2 sm:space-y-0 sm:space-x-4 sm:flex sm:items-center">
-  <select
+        <div className="filter-group">
+        <select
     className="filter-select"
     value={filters.diningType}
     onChange={(e) => handleFilterChange('diningType', e.target.value)}
@@ -142,6 +132,27 @@ function CalendarPage() {
       <option className="px-2" value="declined">Declined</option>
     </select>
   )}
+        </div>
+      
+
+        <div className="add-button-container">
+          <button className="add-button" onClick={() => window.location.hash = "#event/create"}>
+            <div className="button-content">
+              <img className="but-icon" src="./icons/icon.png"></img>
+              <p>Create A Table</p>
+            </div>
+          </button>
+          <button className="add-button-secondary" onClick={() => window.location.hash = "#availability/create"}>
+            <div className="button-content">
+              <img className="but-icon" src="./icons/clock.svg"></img>
+              <p>Add Availability</p>
+            </div>
+          </button>
+        </div>
+
+        <div className="filter-bar space-y-2 sm:space-y-0 sm:space-x-4 sm:flex sm:items-center">
+
+  
 </div>
 
 

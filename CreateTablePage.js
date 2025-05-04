@@ -81,7 +81,7 @@ function CreateTablePage({ locationId }) {
   }
 
   return (
-    <div className="flex flex-col min-h-screen pb-16 bg-[#f6fbff] p-6">
+    <div className="flex flex-col min-h-screen pb-16 bg-[#F1FAEE] p-6">
       <h1 className="text-2xl font-bold mb-4 text-[#3a2e20]">Create Table {locationId && `at ${locationId}`}</h1>
   
       <div className="space-y-4 max-w-xl w-full mx-auto">
@@ -175,7 +175,7 @@ function CreateTablePage({ locationId }) {
   
         <button
           onClick={handleSubmit}
-          className="bg-blue-500 text-white font-semibold px-6 py-2 rounded-xl w-full shadow-sm hover:bg-blue-600 transition"
+          className="button-primary"
         >
           Create Table
         </button>

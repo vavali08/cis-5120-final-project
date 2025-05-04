@@ -23,18 +23,24 @@ function LocationPage({ locationId = ""}) {
   }
 
   return (
-    <div className="flex flex-col min-h-screen pb-16 bg-[#f6fbff]">
-      <div className="bg-[#e0f0ff] text-black p-4 text-lg font-semibold">
-        Events at: {locationName}
-      </div>
-
-      {location?.image && (
-        <img
-          src={location.image}
-          alt={locationName}
-          className="w-full h-48 object-cover"
-        />
-      )}
+    <div className="flex flex-col min-h-screen pb-16 bg-[#f1faee]">
+<div className="relative">
+  {location?.image && (
+    <div className="w-full h-60">
+      <img
+        src={location.image}
+        alt={locationName}
+        className="w-full h-full object-cover"
+      />
+    </div>
+  )}
+  
+  <div className="absolute top-0 left-0 right-0 bg-[#e0f0ff]/70 p-4 backdrop-blur-sm">
+    <div className="text-black text-lg font-semibold">
+      Events at: {locationName}
+    </div>
+  </div>
+</div>
 
 
       <div className="p-4 flex flex-col gap-4">
@@ -42,10 +48,18 @@ function LocationPage({ locationId = ""}) {
           onClick={() => window.location.hash = `#event/${locationId}/create`}
           className="button-primary"
         >
-          + Create Your Table
+            <div className="button-content">
+              <img className="but-icon2" src="./icons/icon.png"></img>
+              <p>Create Your Table</p>
+            </div>
         </button>
 
-        <button className="button-secondary">🤍 Add Favorites</button>
+        <button className="button-secondary">
+          <div className="button-content">
+              <img className="but-icon2" src="./icons/love.svg"></img>
+              <p>Add To Favorites</p>
+          </div>
+        </button>
 
         <div className="font-bold text-lg">Public Tables</div>
 
@@ -53,7 +67,7 @@ function LocationPage({ locationId = ""}) {
           <div className="text-sm text-gray-700">No events at this location yet.</div>
         ) : (
           events.map((ev) => (
-            <div key={ev.id} className="bg-white p-4 rounded-xl shadow-sm">
+            <div key={ev.id} className="location-card">
               <div className="flex justify-between items-center">
                 <div>
                   <div className="font-bold">{ev.title}</div>
@@ -68,7 +82,10 @@ function LocationPage({ locationId = ""}) {
                 onClick={() => handleRequest(ev.id)}
                 disabled={requestSentMap[ev.id]}
               >
-                {requestSentMap[ev.id] ? "✅ Request Sent" : "+ Request To Join"}
+              <div className="button-content">
+                <img className="but-icon2" src={requestSentMap[ev.id] ? "./icons/check.svg" : "./icons/icon.png"}></img>
+                <p>{requestSentMap[ev.id] ? "Request Sent" : "Request To Join"}</p>
+              </div>
               </button>
             </div>
           ))
