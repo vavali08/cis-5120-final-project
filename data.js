@@ -31,71 +31,71 @@ const defaultLocations = [
     {
       id: "sweetgreen",
       name: "Sweetgreen",
-      lat: 39.95384,
-      lng: -75.19526,
+      lat: 39.95453,
+      lng: -75.20100,
       image: "/images/sweetgreen.jpg.webp"
     },
     {
       id: "greeklady",
       name: "Greek Lady",
-      lat: 39.95195,
-      lng: -75.19792,
+      lat: 39.95347,
+      lng: -75.20289,
       image: "/images/greeklady.jpg"
     },
     {
       id: "allegro",
       name: "Allegro Pizza",
-      lat: 39.95402,
-      lng: -75.19930,
+      lat: 39.95171,
+      lng: -75.20292,
       image: "/images/allegropizza.png.avif"
     },
     {
       id: "hipcityveg",
       name: "HipCityVeg",
-      lat: 39.95415,
-      lng: -75.19630,
+      lat: 39.95158,
+      lng: -75.19066,
       image: "/images/hipcityveg.png"
     },
     {
       id: "goldie",
       name: "Goldie",
-      lat: 39.95267,
-      lng: -75.19619,
+      lat: 39.95372,
+      lng: -75.19260,
       image: "/images/goldie.jpg"
     },
     {
       id: "dimsumhouse",
       name: "Dim Sum House",
-      lat: 39.95527,
-      lng: -75.19893,
+      lat: 39.95648,
+      lng: -75.20118,
       image: "/images/dimsum.jpg"
     },
     {
       id: "ramenbar",
       name: "Ramen Bar",
       lat: 39.95462,
-      lng: -75.20061,
+      lng: -75.20387,
       image: "/images/ramenbar.jpg"
     },
     {
       id: "honeygrow",
       name: "Honeygrow",
-      lat: 39.95443,
-      lng: -75.19549,
+      lat: 39.95576,
+      lng: -75.19703,
       image: "/images/honeygrow.jpeg"
     },
     {
       id: "sabrinas",
       name: "Sabrina’s Café",
-      lat: 39.9158257,
-      lng: -75.0686054,
+      lat: 39.96027,
+      lng: -75.19089,
       image: "/images/sabrinas.jpeg"
     },
     {
       id: "handynasty",
       name: "Han Dynasty",
-      lat: 39.95669,
-      lng: -75.19709,
+      lat: 39.95853,
+      lng: -75.19591,
       image: "/images/handynasty.jpg"
     }
   ];
