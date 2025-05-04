@@ -90,3 +90,19 @@ body {
 .button-secondary:hover {
   background-color: #f8fafc; /* light hover */
 }
+
+
+.filter-select {
+  height: 36px; /* Set a fixed height */
+  padding: 0 12px; /* Ensure consistent padding */
+  font-size: 14px; /* Set a consistent font size */
+  border-radius: 4px; /* Optional: Adds rounded corners */
+  border: 1px solid #ccc; /* Optional: Add border styling */
+}
+
+.filter-bar {
+  display: flex;
+  gap: 12px; /* Add some space between the selects */
+  flex-wrap: wrap; /* Ensures elements wrap on smaller screens */
+  align-items: center; /* Vertically align items */
+}
