@@ -87,8 +87,8 @@ const defaultLocations = [
     {
       id: "sabrinas",
       name: "Sabrina’s Café",
-      lat: 39.95601,
-      lng: -75.20202,
+      lat: 39.9158257,
+      lng: -75.0686054,
       image: "/images/sabrinas.jpeg"
     },
     {
