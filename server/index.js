@@ -310,6 +310,41 @@ app.delete('/api/events/:id', (req, res) => {
   });
 });
 
+// Handling event firend invites etc
+// Cancel join request
+// DELETE /api/events/:id/request/:userId
+app.delete('/api/events/:id/request/:userId', (req, res) => {
+  const eventId = req.params.id;
+  const userId = req.params.userId;
+
+  const sql = `
+    DELETE FROM event_participants 
+    WHERE event_id = ? AND user_id = ? AND status = 'request_pending'
+  `;
+
+  db.query(sql, [eventId, userId], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ success: true, message: 'Join request removed.' });
+  });
+});
+
+// Uninvite/remove attendees as host
+// DELETE /api/events/:id/attendees/:userId
+app.delete('/api/events/:id/attendees/:userId', (req, res) => {
+  const eventId = req.params.id;
+  const userId = req.params.userId;
+
+  const sql = `
+    DELETE FROM event_participants 
+    WHERE event_id = ? AND user_id = ?
+  `;
+
+  db.query(sql, [eventId, userId], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ success: true, message: 'Attendee removed from event.' });
+  });
+});
+
 
 // Edit events
 // PUT /api/events/:id — Update event details
