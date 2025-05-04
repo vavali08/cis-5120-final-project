@@ -1,12 +1,12 @@
 function Navigation() {
   const navItems = [
-    { name: "Calendar", icon: "/icons/calendar-xmark-solid.svg", hash: "#calendar" },
+    { name: "Schedule", icon: "/icons/calendar-solid.svg", hash: "#calendar" },
     { name: "Event Map", icon: "/icons/map-solid.svg", hash: "#map" },
     { name: "Profile", icon: "/icons/circle-user-solid.svg", hash: "#profile" },
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 w-full z-50 bg-[#e0f0ff] border-t border-blue-200 shadow-inner">
+    <div className="bot-nav-bar">
       <nav className="flex justify-around py-3">
         {navItems.map((item) => (
           <a

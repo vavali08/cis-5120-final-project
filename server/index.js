@@ -20,6 +20,125 @@ app.post('/api/users', (req, res) => {
   });
 });
 
+// Get the friends for adding and removing
+app.get('/api/users/:id/search', (req, res) => {
+  const userId = req.params.id;
+  const query = req.query.query;
+
+  const sql = `
+    SELECT id, username FROM users
+    WHERE username LIKE ?
+      AND id != ?
+      AND id NOT IN (
+        SELECT friend_id FROM friends WHERE user_id = ?
+      )
+    LIMIT 10
+  `;
+
+  db.query(sql, [`%${query}%`, userId, userId], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
+// GET user by username (needed for friend request)
+app.get('/api/users/username/:username', (req, res) => {
+  const sql = 'SELECT * FROM users WHERE username = ?';
+  db.query(sql, [req.params.username], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (results.length === 0) return res.status(404).json({ error: 'User not found' });
+    res.json(results[0]);
+  });
+});
+
+
+// request friend
+app.post('/api/users/:id/friends/request', (req, res) => {
+  const userId = req.params.id;
+  const { friend_id } = req.body;
+
+  const sql = `
+    INSERT INTO friends (user_id, friend_id, status)
+    VALUES (?, ?, 'pending')
+    ON DUPLICATE KEY UPDATE status = 'pending'
+  `;
+
+  db.query(sql, [userId, friend_id], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ success: true, message: 'Friend request sent.' });
+  });
+});
+
+//accept request
+app.put('/api/users/:id/friends/:friendId/accept', (req, res) => {
+  const userId = req.params.id;
+  const friendId = req.params.friendId;
+
+  const sql = `
+    INSERT INTO friends (user_id, friend_id, status)
+    VALUES (?, ?, 'accepted')
+    ON DUPLICATE KEY UPDATE status = 'accepted'
+  `;
+
+  db.query(sql, [userId, friendId], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+
+    db.query(sql, [friendId, userId], (err2) => {
+      if (err2) return res.status(500).json({ error: err2.message });
+      res.json({ success: true, message: 'Friend request accepted.' });
+    });
+  });
+});
+
+// reject request or delete request
+app.delete('/api/users/:id/friends/:friendId', (req, res) => {
+  const userId = req.params.id;
+  const friendId = req.params.friendId;
+
+  const sql = `
+    DELETE FROM friends 
+    WHERE (user_id = ? AND friend_id = ? AND status = 'pending')
+       OR (user_id = ? AND friend_id = ? AND status = 'pending')
+  `;
+
+  db.query(sql, [userId, friendId, friendId, userId], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ success: true, message: 'Friend request cancelled or declined.' });
+  });
+});
+
+// DELETE /api/friends/:userId/:friendId - Remove a friend
+app.delete('/api/friends/:userId/:friendId', (req, res) => {
+  const { userId, friendId } = req.params;
+
+  const sql = `
+    DELETE FROM friends 
+    WHERE (user_id = ? AND friend_id = ?) 
+       OR (user_id = ? AND friend_id = ?)
+  `;
+
+  db.query(sql, [userId, friendId, friendId, userId], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ success: true, message: "Friend removed." });
+  });
+});
+
+// get pending reqs
+app.get('/api/users/:id/friends/requests', (req, res) => {
+  const userId = req.params.id;
+
+  const sql = `
+    SELECT u.id, u.username 
+    FROM friends f
+    JOIN users u ON u.id = f.user_id
+    WHERE f.friend_id = ? AND f.status = 'pending'
+  `;
+
+  db.query(sql, [userId], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
+
 // GET all events
 app.get('/api/events', (req, res) => {
   db.query('SELECT * FROM events', (err, results) => {
@@ -310,6 +429,68 @@ app.delete('/api/events/:id', (req, res) => {
   });
 });
 
+// Handling event firend invites etc
+// Cancel join request
+// DELETE /api/events/:id/request/:userId
+app.delete('/api/events/:id/request/:userId', (req, res) => {
+  const eventId = req.params.id;
+  const userId = req.params.userId;
+
+  const sql = `
+    DELETE FROM event_participants 
+    WHERE event_id = ? AND user_id = ? AND status = 'request_pending'
+  `;
+
+  db.query(sql, [eventId, userId], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ success: true, message: 'Join request removed.' });
+  });
+});
+
+// Uninvite/remove attendees as host
+// DELETE /api/events/:id/attendees/:userId
+app.delete('/api/events/:id/attendees/:userId', (req, res) => {
+  const eventId = req.params.id;
+  const userId = req.params.userId;
+
+  const sql = `
+    DELETE FROM event_participants 
+    WHERE event_id = ? AND user_id = ?
+  `;
+
+  db.query(sql, [eventId, userId], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ success: true, message: 'Attendee removed from event.' });
+  });
+});
+
+
+// Edit events
+// PUT /api/events/:id — Update event details
+app.put('/api/events/:id', (req, res) => {
+  const eventId = req.params.id;
+  const {
+    title, location, latitude, longitude,
+    date, dining_type, time_range, is_public
+  } = req.body;
+
+  const sql = `
+    UPDATE events
+    SET title = ?, location = ?, latitude = ?, longitude = ?, date = ?, dining_type = ?, time_range = ?, is_public = ?
+    WHERE id = ?
+  `;
+
+  const values = [title, location, latitude, longitude, date, dining_type, time_range, is_public, eventId];
+
+  db.query(sql, values, (err) => {
+    if (err) {
+      console.error("Error updating event:", err.message);
+      return res.status(500).json({ error: err.message });
+    }
+    res.json({ success: true, message: "Event updated successfully." });
+  });
+});
+
 
 // Test DB connection
 console.log("Registering /api/test-db route...");
@@ -327,4 +508,21 @@ app.get('/api/test-db', (req, res) => {
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+});
+
+process.on('exit', (code) => {
+  console.log('Process exited with code:', code);
+});
+
+process.on('SIGINT', () => {
+  console.log('Caught SIGINT (Ctrl+C?)');
+  process.exit();
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught exception:', err);
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled rejection:', reason);
 });

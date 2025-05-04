@@ -98,51 +98,63 @@ function CalendarPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
+        <div className="filter-group">
+        <select
+    className="filter-select"
+    value={filters.diningType}
+    onChange={(e) => handleFilterChange('diningType', e.target.value)}
+  >
+    <option className="px-2" value="">All Dining Types</option>
+    <option className="px-2" value="Lunch">Lunch</option>
+    <option className="px-2" value="Dinner">Dinner</option>
+  </select>
+
+  <select
+    className="filter-select"
+    value={filters.date}
+    onChange={(e) => handleFilterChange('date', e.target.value)}
+  >
+    <option className="px-2" value="">All Dates</option>
+    {Array.from(new Set((activeTab === "user" ? userSchedules : friendSchedules).map(s => s.date))).map(date => (
+      <option className="px-2" key={date} value={date}>{date}</option>
+    ))}
+  </select>
+
+  {activeTab === "user" && (
+    <select
+      className="filter-select"
+      value={filters.status}
+      onChange={(e) => handleFilterChange('status', e.target.value)}
+    >
+      <option className="px-2" value="">All Statuses</option>
+      <option className="px-2" value="confirmed">Confirmed</option>
+      <option className="px-2" value="pending">Pending</option>
+      <option className="px-2" value="declined">Declined</option>
+    </select>
+  )}
+        </div>
+      
 
         <div className="add-button-container">
           <button className="add-button" onClick={() => window.location.hash = "#event/create"}>
-            Create A Table
+            <div className="button-content">
+              <img className="but-icon" src="./icons/icon.png"></img>
+              <p>Create A Table</p>
+            </div>
           </button>
-          <button className="add-button mt-2" onClick={() => window.location.hash = "#availability/create"}>
-            Add Availability
+          <button className="add-button-secondary" onClick={() => window.location.hash = "#availability/create"}>
+            <div className="button-content">
+              <img className="but-icon" src="./icons/clock.svg"></img>
+              <p>Add Availability</p>
+            </div>
           </button>
         </div>
 
-        <div className="filter-bar">
-          <select
-            className="filter-select"
-            value={filters.diningType}
-            onChange={(e) => handleFilterChange('diningType', e.target.value)}
-          >
-            <option value="">All Dining Types</option>
-            <option value="Lunch">Lunch</option>
-            <option value="Dinner">Dinner</option>
-          </select>
+        <div className="filter-bar space-y-2 sm:space-y-0 sm:space-x-4 sm:flex sm:items-center">
 
-          <select
-            className="filter-select"
-            value={filters.date}
-            onChange={(e) => handleFilterChange('date', e.target.value)}
-          >
-            <option value="">All Dates</option>
-            {Array.from(new Set((activeTab === "user" ? userSchedules : friendSchedules).map(s => s.date))).map(date => (
-              <option key={date} value={date}>{date}</option>
-            ))}
-          </select>
+  
+</div>
 
-          {activeTab === "user" && (
-            <select
-              className="filter-select"
-              value={filters.status}
-              onChange={(e) => handleFilterChange('status', e.target.value)}
-            >
-              <option value="">All Statuses</option>
-              <option value="confirmed">Confirmed</option>
-              <option value="pending">Pending</option>
-              <option value="declined">Declined</option>
-            </select>
-          )}
-        </div>
 
         {Object.keys(groupedSchedules).length > 0 ? (
           Object.keys(groupedSchedules).map((date) => {
@@ -159,7 +171,7 @@ function CalendarPage() {
           })
         ) : (
           <div className="no-results">
-            <p>No events match your filters</p>
+            <p>No schedules match your filters</p>
           </div>
         )}
 

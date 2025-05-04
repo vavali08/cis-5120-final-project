@@ -7,9 +7,9 @@ function CreateTablePage({ locationId }) {
   const [date, setDate] = React.useState("");
   const [startTime, setStartTime] = React.useState("");
   const [endTime, setEndTime] = React.useState("");
-  const [dishes, setDishes] = React.useState([""]);
   const [friends, setFriends] = React.useState([]);
   const [invitedFriends, setInvitedFriends] = React.useState([]);
+  const [isPublic, setIsPublic] = React.useState(true); // default to public
 
   const userId = localStorage.getItem("user_id");
 
@@ -24,16 +24,6 @@ function CreateTablePage({ locationId }) {
       });
   }, [userId]);
   
-  function handleAddDish() {
-    setDishes([...dishes, ""]);
-  }
-
-  function handleChangeDish(index, value) {
-    const updated = [...dishes];
-    updated[index] = value;
-    setDishes(updated);
-  }
-
   function handleSubmit() {
     if (!tableName || !date || !startTime || !endTime) {
       alert("Please fill in all required fields.");
@@ -48,10 +38,9 @@ function CreateTablePage({ locationId }) {
       time_range: `${startTime} - ${endTime}`,
       latitude,
       longitude,
-      is_public: true,
+      is_public: isPublic,
       is_availability: false,
       host_id: userId,
-      dishes: dishes.filter(d => d.trim() !== "")
     };
 
     fetch("http://localhost:3001/api/events", {
@@ -92,7 +81,7 @@ function CreateTablePage({ locationId }) {
   }
 
   return (
-    <div className="flex flex-col min-h-screen pb-16 bg-[#f6fbff] p-6">
+    <div className="flex flex-col min-h-screen pb-16 bg-[#F1FAEE] p-6">
       <h1 className="text-2xl font-bold mb-4 text-[#3a2e20]">Create Table {locationId && `at ${locationId}`}</h1>
   
       <div className="space-y-4 max-w-xl w-full mx-auto">
@@ -173,29 +162,20 @@ function CreateTablePage({ locationId }) {
             ))}
           </div>
         </div>
-  
-        <div>
-          <label className="font-semibold text-[#3a2e20]">Dishes:</label>
-          {dishes.map((dish, i) => (
-            <input
-              key={i}
-              value={dish}
-              onChange={(e) => handleChangeDish(i, e.target.value)}
-              placeholder={`Dish ${i + 1}`}
-              className="w-full mb-1 px-4 py-2 rounded border bg-white"
-            />
-          ))}
-          <button
-            onClick={handleAddDish}
-            className="mt-1 text-sm text-blue-600 underline"
-          >
-            + Add Another Dish
-          </button>
+
+        <div className="flex items-center gap-2">
+          <label className="text-sm font-medium text-gray-800">Make Event Public</label>
+          <input
+            type="checkbox"
+            checked={isPublic}
+            onChange={(e) => setIsPublic(e.target.checked)}
+            className="accent-blue-600"
+          />
         </div>
   
         <button
           onClick={handleSubmit}
-          className="bg-blue-500 text-white font-semibold px-6 py-2 rounded-xl w-full shadow-sm hover:bg-blue-600 transition"
+          className="button-primary"
         >
           Create Table
         </button>
