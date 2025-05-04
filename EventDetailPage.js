@@ -136,7 +136,12 @@ function EventDetailPage({ eventId }) {
 
         {isHost ? (
           <div className="mt-4 space-y-2">
-            <button className="bg-[#4a90e2] text-white font-semibold px-6 py-2 rounded-xl w-full shadow-sm">
+           <button
+              onClick={() => {
+                window.location.hash = `#event-edit/${eventId}`;
+              }}
+              className="bg-[#4a90e2] text-white font-semibold px-6 py-2 rounded-xl w-full shadow-sm"
+            >
               Edit Event
             </button>
             <button

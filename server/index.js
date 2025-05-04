@@ -311,6 +311,33 @@ app.delete('/api/events/:id', (req, res) => {
 });
 
 
+// Edit events
+// PUT /api/events/:id — Update event details
+app.put('/api/events/:id', (req, res) => {
+  const eventId = req.params.id;
+  const {
+    title, location, latitude, longitude,
+    date, dining_type, time_range
+  } = req.body;
+
+  const sql = `
+    UPDATE events
+    SET title = ?, location = ?, latitude = ?, longitude = ?, date = ?, dining_type = ?, time_range = ?
+    WHERE id = ?
+  `;
+
+  const values = [title, location, latitude, longitude, date, dining_type, time_range, eventId];
+
+  db.query(sql, values, (err) => {
+    if (err) {
+      console.error("Error updating event:", err.message);
+      return res.status(500).json({ error: err.message });
+    }
+    res.json({ success: true, message: "Event updated successfully." });
+  });
+});
+
+
 // Test DB connection
 console.log("Registering /api/test-db route...");
 app.get('/api/test-db', (req, res) => {

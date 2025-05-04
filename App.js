@@ -31,6 +31,11 @@ function startApp() {
       const locationId = route.split("/")[1];
       return <LocationPage locationId={locationId} />;
     }
+
+    if (route.startsWith("#event-edit/")) {
+      const eventId = route.split("/")[1];
+      return <EditEventPage eventId={eventId} />;
+    }
     
 
   
