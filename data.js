@@ -75,7 +75,7 @@ const defaultLocations = [
       name: "Ramen Bar",
       lat: 39.95462,
       lng: -75.20061,
-      image: "/images/ramen.jpeg"
+      image: "/images/ramenbar.jpg"
     },
     {
       id: "honeygrow",
