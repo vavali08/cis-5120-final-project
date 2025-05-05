@@ -340,7 +340,12 @@ app.get('/api/users/:id/friends/availabilities', (req, res) => {
 });
 
 app.get('/api/events/:id', (req, res) => {
-  const sql = 'SELECT * FROM events WHERE id = ?';
+  const sql = `
+    SELECT e.*, u.username AS host_name
+    FROM events e
+    JOIN users u ON e.host_id = u.id
+    WHERE e.id = ?
+  `;
   db.query(sql, [req.params.id], (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(results[0]);
